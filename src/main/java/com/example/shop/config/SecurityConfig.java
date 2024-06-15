@@ -35,17 +35,21 @@ public class SecurityConfig {
                                 "/api/products/add",
                                 "/api/products/**",
                                 "/api/products/search",
-                                "/api/basket",
-                                "/api/basket/user/**",
-                                "/api/basket/addProduct",
-                                "/api/basket/add",
                                 "/api/order",
-                                "/api/order/**",
-                                "/api/order/update/**",
+                                "/api/order/create",
+                                "/api/order/user/**",
+                                "/api/order/addProduct",
+                                "/api/order-details",
+                                "/api/order-details/**",
+                                "/api/order-details/update/**",
                                 "/api/users",
                                 "/api/users/**",
                                 "/api/payment",
-                                "/api/payment/create-checkout-session"
+                                "/api/payment/create-checkout-session",
+                                "/api/manufacturers",
+                                "/api/manufacturers/**",
+                                "/api/user-data",
+                                "/api/user-data/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

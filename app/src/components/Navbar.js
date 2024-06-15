@@ -71,7 +71,8 @@ const AppNavbar = () => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get('http://localhost:8081/api/categories');
-                setCategories(response.data);
+                const sortedCategories = response.data.sort((a, b) => a.id - b.id);
+                setCategories(sortedCategories);
             } catch (error) {
                 console.error('Failed to fetch categories:', error);
             }

@@ -20,8 +20,8 @@ public class OrderDetails {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "basket_id")
-    private Basket basket;
+    @JoinColumn(name = "order_id")
+    private Orders orders;
 
     @Column(name = "order_date")
     private LocalDateTime  orderDate;

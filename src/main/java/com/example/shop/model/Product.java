@@ -1,7 +1,10 @@
 package com.example.shop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -17,15 +20,17 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "manufacturer_id")
+    private Manufacturer manufacturer;
 
     private float price;
 
@@ -33,4 +38,7 @@ public class Product {
 
     @Column(name = "cut_price")
     private Float cutPrice;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductTranslation> translations;
 }

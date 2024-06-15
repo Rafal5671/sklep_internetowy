@@ -17,7 +17,7 @@ import java.util.Optional;
 public class OrderDetailsController {
 
     @Autowired
-    private BasketRepository basketRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
@@ -39,11 +39,11 @@ public class OrderDetailsController {
             return ResponseEntity.status(401).body("User not authenticated");
         }
 
-        Optional<Basket> optionalBasket = basketRepository.findById(request.getBasketId());
-        if (!optionalBasket.isPresent() || !optionalBasket.get().getUser().equals(user)) {
+        Optional<Orders> optionalBasket = orderRepository.findById(request.getBasketId());
+        if (optionalBasket.isEmpty() || !optionalBasket.get().getUser().equals(user)) {
             return ResponseEntity.status(404).body("Basket not found or does not belong to the user");
         }
-        Basket basket = optionalBasket.get();
+        Orders orders = optionalBasket.get();
 
         Address address = new Address();
         address.setCity(request.getAddress().getCity());
@@ -53,7 +53,7 @@ public class OrderDetailsController {
         addressRepository.save(address);
 
         OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setBasket(basket);
+        orderDetails.setOrders(orders);
         orderDetails.setOrderDate(LocalDateTime.now());
         orderDetails.setShipDate(null); // or set the ship date based on your logic
         orderDetails.setState(OrderState.PENDING); // or set the appropriate state
@@ -72,35 +72,35 @@ public class OrderDetailsController {
                 int quantity = productDTO.getQuantity();
 
                 // Check if the product already exists in the basket
-                Optional<BasketProduct> optionalBasketProduct = basket.getBasketProducts().stream()
+                Optional<OrderProduct> optionalBasketProduct = orders.getOrderProducts().stream()
                         .filter(bp -> bp.getProduct().getId().equals(product.getId()))
                         .findFirst();
 
-                BasketProduct basketProduct;
+                OrderProduct orderProduct;
                 if (optionalBasketProduct.isPresent()) {
-                    basketProduct = optionalBasketProduct.get();
-                    basketProduct.setQuantity(basketProduct.getQuantity() + quantity);
+                    orderProduct = optionalBasketProduct.get();
+                    orderProduct.setQuantity(orderProduct.getQuantity() + quantity);
                 } else {
-                    basketProduct = new BasketProduct();
-                    basketProduct.setBasket(basket);
-                    basketProduct.setProduct(product);
-                    basketProduct.setQuantity(quantity);
-                    basket.getBasketProducts().add(basketProduct);
+                    orderProduct = new OrderProduct();
+                    orderProduct.setOrders(orders);
+                    orderProduct.setProduct(product);
+                    orderProduct.setQuantity(quantity);
+                    orders.getOrderProducts().add(orderProduct);
                 }
 
                 totalPrice += product.getPrice() * quantity;
             }
         }
-        basket.setTotalPrice(totalPrice);
-        basket.setState(true);
-        basketRepository.save(basket);
+        orders.setTotalPrice(totalPrice);
+        orders.setState(true);
+        orderRepository.save(orders);
 
         // Create a new basket for the user
-        Basket newBasket = new Basket();
-        newBasket.setUser(user);
-        newBasket.setState(false);
-        newBasket.setTotalPrice(0.0f);
-        basketRepository.save(newBasket);
+        Orders newOrders = new Orders();
+        newOrders.setUser(user);
+        newOrders.setState(false);
+        newOrders.setTotalPrice(0.0f);
+        orderRepository.save(newOrders);
 
         return ResponseEntity.ok(orderDetails);
     }
@@ -108,14 +108,14 @@ public class OrderDetailsController {
     @PatchMapping("/update-payment-status/{basketId}")
     public ResponseEntity<?> updatePaymentStatus(@PathVariable Long basketId, @RequestBody Map<String, String> payload) {
         String paymentStatus = payload.get("paymentStatus");
-        Optional<Basket> optionalBasket = basketRepository.findById(basketId);
+        Optional<Orders> optionalBasket = orderRepository.findById(basketId);
 
-        if (!optionalBasket.isPresent()) {
+        if (optionalBasket.isEmpty()) {
             return ResponseEntity.status(404).body("Basket not found");
         }
 
-        Basket basket = optionalBasket.get();
-        OrderDetails orderDetails = orderDetailsRepository.findByBasket(basket);
+        Orders orders = optionalBasket.get();
+        OrderDetails orderDetails = orderDetailsRepository.findByOrders(orders);
 
         if (orderDetails == null) {
             return ResponseEntity.status(404).body("OrderDetails not found for the given basket");
@@ -139,7 +139,7 @@ public class OrderDetailsController {
     public ResponseEntity<OrderDetails> updateOrderStatus(@PathVariable Long id, @RequestBody Map<String, OrderState> payload) {
         OrderState state = payload.get("state");
         Optional<OrderDetails> optionalOrder = orderDetailsRepository.findById(id);
-        if (!optionalOrder.isPresent()) {
+        if (optionalOrder.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         OrderDetails orderDetails = optionalOrder.get();

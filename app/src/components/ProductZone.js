@@ -11,6 +11,7 @@ function ProductZone() {
                 const response = await axios.get("http://localhost:8081/api/products");
                 const shuffled = response.data.sort(() => 0.5 - Math.random());
                 setProducts(shuffled.slice(0, 8));
+                console.log("Products",shuffled);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }

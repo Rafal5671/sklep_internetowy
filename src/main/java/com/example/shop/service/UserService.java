@@ -1,9 +1,9 @@
 package com.example.shop.service;
 
-import com.example.shop.model.Basket;
+import com.example.shop.model.Orders;
 import com.example.shop.model.User;
 import com.example.shop.model.UserType;
-import com.example.shop.repo.BasketRepository;
+import com.example.shop.repo.OrderRepository;
 import com.example.shop.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,48 +22,39 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final BasketRepository basketRepository;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, BasketRepository basketRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.basketRepository = basketRepository;
+        this.orderRepository = orderRepository;
     }
 
     public boolean checkLogin(User user) {
         User foundUser = userRepository.findByEmail(user.getEmail());
         return foundUser != null && passwordEncoder.matches(user.getPassword(), foundUser.getPassword());
     }
-
+    public Orders createOrder(User user) {
+        Orders orders = new Orders();
+        orders.setUser(user);
+        orders.setState(false);
+        orders.setTotalPrice(0.0f);
+        return orderRepository.save(orders);
+    }
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserType(UserType.USER);
-        User savedUser = userRepository.save(user);
-
-        // Create and save a basket for the new user
-        Basket basket = new Basket();
-        basket.setUser(savedUser);
-        basket.setState(false);
-        basket.setTotalPrice(0.0f);
-        basketRepository.save(basket);
-
-        return savedUser;
+        return userRepository.save(user);
     }
 
     public User authenticate(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            // Fetch the basket with state = false
-            Basket basket = basketRepository.findByUserAndState(user, false);
-            user.setBaskets(Collections.singletonList(basket)); // Assuming there's only one such basket
             return user;
         }
         return null;
     }
-
-
-
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
@@ -76,10 +67,12 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        basketRepository.deleteAll(user.getBaskets());
+        orderRepository.deleteAll(user.getOrders());
         userRepository.deleteById(id);
     }
 }

@@ -12,24 +12,53 @@ import {
 
 const ProductFilter = ({ onFilterChange, categoryId }) => {
   const [filters, setFilters] = useState({
-    producers: {
-      HP: false,
-      Dell: false,
-      ASUS: false,
-      Lenovo: false,
-      G4M3R: false,
-    },
+    producers: {},
     priceFrom: '',
     priceTo: '',
   });
+
+  const [producers, setProducers] = useState([]);
 
   const previousFiltersRef = useRef(filters);
 
   const debouncedOnFilterChange = useCallback(debounce(onFilterChange, 300), [onFilterChange]);
 
   useEffect(() => {
+    console.log('CategoryId changed:', categoryId); // Check if categoryId is changing correctly
+    const fetchProducers = async () => {
+      try {
+        const response = await fetch(`http://localhost:8081/api/manufacturers?categoryId=${categoryId}`, { // Ensure this URL matches your Spring Boot server address and endpoint
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', // This ensures cookies and other credentials are sent
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Fetched producers for category', categoryId, data); // Print producers to the console
+        const producersData = data.reduce((acc, producer) => {
+          acc[producer] = false;
+          return acc;
+        }, {});
+        setProducers(data);
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          producers: producersData,
+        }));
+      } catch (error) {
+        console.error('Error fetching producers:', error);
+      }
+    };
+
+    fetchProducers();
+  }, [categoryId]);
+
+  useEffect(() => {
     const selectedProducers = Object.keys(filters.producers).filter(
-        (producer) => filters.producers[producer]
+      (producer) => filters.producers[producer]
     );
 
     const updatedFilters = {
@@ -62,52 +91,52 @@ const ProductFilter = ({ onFilterChange, categoryId }) => {
   };
 
   return (
-      <Box sx={{ padding: 2, width: 300, backgroundColor: 'white', borderRadius: 7 }}>
-        <Typography variant="h6">Filtry</Typography>
+    <Box sx={{ padding: 2, width: 300, backgroundColor: 'white', borderRadius: 7 }}>
+      <Typography variant="h6">Filtry</Typography>
 
-        <Box mt={2}>
-          <Typography variant="subtitle1">Cena</Typography>
-          <Box display="flex" justifyContent="space-between">
-            <Input
-                placeholder="od"
-                type="number"
-                name="priceFrom"
-                value={filters.priceFrom}
-                onChange={handleInputChange}
-            />
-            <Input
-                placeholder="do"
-                type="number"
-                name="priceTo"
-                value={filters.priceTo}
-                onChange={handleInputChange}
-            />
-          </Box>
+      <Box mt={2}>
+        <Typography variant="subtitle1">Cena</Typography>
+        <Box display="flex" justifyContent="space-between">
+          <Input
+            placeholder="od"
+            type="number"
+            name="priceFrom"
+            value={filters.priceFrom}
+            onChange={handleInputChange}
+          />
+          <Input
+            placeholder="do"
+            type="number"
+            name="priceTo"
+            value={filters.priceTo}
+            onChange={handleInputChange}
+          />
         </Box>
-
-        {categoryId === '1' && (
-            <Box mt={2}>
-              <FormControl component="fieldset" variant="standard">
-                <FormLabel component="legend">Producent</FormLabel>
-                <FormGroup>
-                  {Object.keys(filters.producers).map((producer) => (
-                      <FormControlLabel
-                          key={producer}
-                          control={
-                            <Checkbox
-                                name={producer}
-                                checked={filters.producers[producer]}
-                                onChange={(e) => handleCheckboxChange(e, 'producers')}
-                            />
-                          }
-                          label={producer}
-                      />
-                  ))}
-                </FormGroup>
-              </FormControl>
-            </Box>
-        )}
       </Box>
+
+      {categoryId && producers.length > 0 && (
+        <Box mt={2}>
+          <FormControl component="fieldset" variant="standard">
+            <FormLabel component="legend">Producent</FormLabel>
+            <FormGroup>
+              {producers.map((producer) => (
+                <FormControlLabel
+                  key={producer}
+                  control={
+                    <Checkbox
+                      name={producer}
+                      checked={filters.producers[producer]}
+                      onChange={(e) => handleCheckboxChange(e, 'producers')}
+                    />
+                  }
+                  label={producer}
+                />
+              ))}
+            </FormGroup>
+          </FormControl>
+        </Box>
+      )}
+    </Box>
   );
 };
 

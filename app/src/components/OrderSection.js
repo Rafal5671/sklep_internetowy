@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Paper, Typography, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+
 import {loadStripe} from "@stripe/stripe-js";
 
 const stripePromise = loadStripe('pk_test_51PQtgQ03dG9DcKmUHYPxw5W8tRpSdhpIuHvWH5KRsSi7WXxvD32zFrpWTM43eBLZJfWWh7vbzrJi9rrO2BviI6pK00bBqaArZu'); // Replace with your Stripe public key
@@ -9,7 +9,6 @@ const stripePromise = loadStripe('pk_test_51PQtgQ03dG9DcKmUHYPxw5W8tRpSdhpIuHvWH
 const OrderSection = () => {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         // Retrieve the logged-in user from session storage

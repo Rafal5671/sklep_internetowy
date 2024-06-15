@@ -25,8 +25,12 @@ function CategoryPage() {
             try {
                 const response = await axios.get(`http://localhost:8081/api/categories/${categoryId}/products`);
                 console.log('Fetched category data:', response.data);
-                setProducts(response.data.products);
-                setCategoryName(response.data.categoryName);
+                if (Array.isArray(response.data.products)) {
+                    setProducts(response.data.products);
+                    setCategoryName(response.data.categoryName);
+                } else {
+                    console.error('Expected an array of products, but got:', response.data.products);
+                }
                 setIsLoading(false);
             } catch (error) {
                 console.error('Failed to fetch category data:', error);
@@ -52,7 +56,6 @@ function CategoryPage() {
     };
 
     const handleAddToBasket = (productId) => {
-        // Handle add to basket logic here if needed
         console.log(`Product ${productId} added to basket`);
     };
 
@@ -63,7 +66,7 @@ function CategoryPage() {
     const filteredProducts = applyFilters(products, filters);
     const paginatedProducts = filteredProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
     const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
-
+    const productText = filteredProducts.length === 1 ? 'wynik' : 'wyniki';
     return (
         <>
             <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -106,7 +109,7 @@ function CategoryPage() {
                                         {categoryName}
                                     </Typography>
                                     <Typography sx={{ color: "gray", ml: 2 }} variant="h5" paragraph>
-                                        ({filteredProducts.length} results)
+                                        ({filteredProducts.length} {productText})
                                     </Typography>
                                 </Box>
                                 <Box sx={{ textAlign: "justify" }}>

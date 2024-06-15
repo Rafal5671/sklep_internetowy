@@ -57,12 +57,6 @@ function RegisterPage() {
               sessionStorage.setItem('user', JSON.stringify(loginData.user)); // Store user information in sessionStorage
               console.log("User logged in successfully:", loginData);
 
-              // Save the user's basket with state = false to sessionStorage
-              const basket = loginData.user.baskets.find(basket => basket.state === false);
-              if (basket) {
-                sessionStorage.setItem('basket', JSON.stringify(basket));
-              }
-
               navigate("/"); // Redirect to HomePage
             } else {
               console.error("Failed to log in:", loginData.message);

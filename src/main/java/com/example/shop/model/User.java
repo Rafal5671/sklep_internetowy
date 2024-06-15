@@ -33,7 +33,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
-    private List<Basket> baskets;
+    private List<Orders> orders;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;

@@ -5,24 +5,24 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "basket_products")
+@Table(name = "order_products")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
-public class BasketProduct {
+public class OrderProduct {
 
     @Id
-    @Column(name = "basket_product_id")
+    @Column(name = "order_product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "basket_id")
+    @JoinColumn(name = "order_id")
     @JsonBackReference
-    private Basket basket;
+    private Orders orders;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

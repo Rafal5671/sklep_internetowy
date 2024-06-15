@@ -40,11 +40,6 @@ function LoginPage() {
       const res = await response.json();
       if (response.ok && res.status && res.user) {
         sessionStorage.setItem('user', JSON.stringify(res.user));
-        const basket = res.user.baskets.find(basket => basket && basket.state === false);
-        if (basket) {
-          sessionStorage.setItem('basket', JSON.stringify(basket));
-        }
-
         navigate(res.user.userType === 'ADMIN' ? "/admin" : "/");
       } else {
         setErrorMessage(res.message || "Failed to log in. Please try again.");

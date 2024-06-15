@@ -9,22 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "baskets")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
-public class Basket {
+public class Orders {
     @Id
-    @Column(name = "basket_id")
+    @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("baskets")
+    @JsonIgnoreProperties("orders")
     private User user;
 
     private Boolean state;
@@ -32,7 +32,7 @@ public class Basket {
     @Column(name = "total_price")
     private Float totalPrice;
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<BasketProduct> basketProducts = new ArrayList<>();
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 }

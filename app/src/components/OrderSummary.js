@@ -11,9 +11,11 @@ import {
   Button,
 } from "@mui/material";
 import axios from 'axios';
-
+import {useNavigate } from "react-router-dom";
+import { useCart } from "./CartContext"; 
 const OrderSummary = ({ products, totalPrice, address, user }) => {
-
+  const { clearCart } = useCart(); 
+  const navigate = useNavigate();
   const handlePlaceOrder = async () => {
     try {
       const orderRequest = {
@@ -30,8 +32,8 @@ const OrderSummary = ({ products, totalPrice, address, user }) => {
       const response = await axios.post('http://localhost:8081/api/order/create', orderRequest, { withCredentials: true });
  
       if (response.status === 200) {
-        alert("Order placed successfully!");
-        // Optionally redirect to another page
+        clearCart();
+        navigate('/success');
       } else {
         alert("Failed to place order.");
       }

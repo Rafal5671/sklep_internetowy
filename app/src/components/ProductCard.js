@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddToCartModal from "./AddToCartModal"; // Import the new component
+import { useCart } from "./CartContext"; // Import useCart hook
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const { addToCart } = useCart(); // Use the addToCart function from the context
 
   const handleImageClick = () => {
     navigate(`/product/${product.id}`);
@@ -25,18 +27,8 @@ const ProductCard = ({ product }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const addToCart = () => {
-    let cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    const existingProduct = cart.find((p) => p.id === product.id);
-
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      product.quantity = 1;
-      cart.push(product);
-    }
-
-    sessionStorage.setItem("cart", JSON.stringify(cart));
+  const addToCartHandler = () => {
+    addToCart(product); // Use the context function to add to cart
     handleOpen();
   };
 
@@ -140,7 +132,7 @@ const ProductCard = ({ product }) => {
                 },
               }}
               size="small"
-              onClick={addToCart}
+              onClick={addToCartHandler}
             >
               <ShoppingCartIcon />
             </Button>

@@ -1,5 +1,6 @@
 package com.example.shop.controller;
 
+import com.example.shop.DTO.ProductManufacturerDto;
 import com.example.shop.model.Product;
 import com.example.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -17,8 +19,19 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam String query) {
-        return productService.searchProducts(query);
+    public List<ProductManufacturerDto> searchProducts(@RequestParam String query) {
+        List<Product> products = productService.searchProducts(query);
+        return products.stream()
+                .map(product -> new ProductManufacturerDto(
+                        product.getId(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getManufacturer().getName(),
+                        product.getImage(),
+                        product.getCutPrice(),  // Assuming getCutPrice() returns a Float
+                        product.getCategory().getCategoryName()  // Assuming getCategory() returns a Category object with getName() method
+                ))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

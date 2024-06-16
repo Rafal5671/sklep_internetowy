@@ -1,5 +1,6 @@
 package com.example.shop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class OrderDetails {
 
     @OneToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Orders orders;
 
     @Column(name = "order_date")

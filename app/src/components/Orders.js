@@ -10,9 +10,8 @@ function Orders() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:8081/api/order/all', { withCredentials: true });
-                const sortedData = sortData(response.data, 'asc');
-                setOrders(sortedData);
+                const response = await axios.get('http://localhost:8081/api/order/all-orders', { withCredentials: true });
+                setOrders(response.data);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -21,28 +20,26 @@ function Orders() {
         fetchOrders();
     }, []);
 
-    const sortData = (data, order) => {
-        return data.sort((a, b) => {
-            if (order === 'asc') {
-                return a.basket.id - b.basket.id;
-            } else {
-                return b.basket.id - a.basket.id;
-            }
-        });
-    };
-
     const handleSort = () => {
         const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-        const sortedData = sortData([...orders], newSortOrder);
         setSortOrder(newSortOrder);
-        setOrders(sortedData);
+
+        const sortedOrders = [...orders].sort((a, b) => {
+            if (newSortOrder === 'asc') {
+                return a.id - b.id;
+            } else {
+                return b.id - a.id;
+            }
+        });
+
+        setOrders(sortedOrders);
     };
 
     const handleStatusChange = async (id, newState) => {
         try {
             const response = await axios.patch(
                 `http://localhost:8081/api/order/update/${id}`,
-                { state: newState }, // Updated payload format
+                { state: newState },
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -50,7 +47,7 @@ function Orders() {
                     withCredentials: true,
                 }
             );
-            setOrders(orders.map(order => (order.id === id ? response.data : order)));
+            setOrders(orders.map(order => (order.id === id ? { ...order, state: newState } : order)));
         } catch (error) {
             console.error('Error updating order status:', error);
         }
@@ -77,7 +74,7 @@ function Orders() {
                                     direction={sortOrder}
                                     onClick={handleSort}
                                 >
-                                    Koszyk ID
+                                    Zamówienie ID
                                 </TableSortLabel>
                             </TableCell>
                             <TableCell>Całkowita cena</TableCell>
@@ -90,10 +87,10 @@ function Orders() {
                     <TableBody>
                         {orders.map((order) => (
                             <TableRow key={order.id}>
-                                <TableCell>{order.basket.id}</TableCell>
-                                <TableCell>{order.basket.totalPrice}</TableCell>
-                                <TableCell>{order.orderDate}</TableCell>
-                                <TableCell>{order.shipDate ? order.shipDate : 'Nie wysłano'}</TableCell>
+                                <TableCell>{order.id}</TableCell>
+                                <TableCell>{order.totalPrice}</TableCell>
+                                <TableCell>{new Date(order.orderDate).toLocaleDateString()}</TableCell>
+                                <TableCell>{order.shipDate ? new Date(order.shipDate).toLocaleDateString() : 'Nie wysłano'}</TableCell>
                                 <TableCell>
                                     <Select
                                         value={editingStatus[order.id] || order.state}

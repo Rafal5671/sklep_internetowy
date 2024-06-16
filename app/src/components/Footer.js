@@ -22,7 +22,7 @@ const Footer = () => {
       <Container className="p-4 pb-0">
         <Row>
           <Col md={3} lg={3} xl={3} className="mt-3">
-            <h6 className="text-uppercase mb-4 font-weight-bold">+ Kom</h6>
+            <h6 className="text-uppercase mb-4 font-weight-bold">E-Amator</h6>
             <p>
               Twoje miejsce na najwyższej jakości elektronikę i akcesoria.
               Oferujemy szeroki wybór produktów, aby zaspokoić wszystkie Twoje
@@ -59,7 +59,7 @@ const Footer = () => {
               <HomeIcon /> Łódź, Polska
             </p>
             <p>
-              <EmailIcon /> pluskom@gmail.com
+              <EmailIcon /> E-Amator@gmail.com
             </p>
             <p>
               <PhoneIcon /> +48 123 456 789
@@ -72,7 +72,7 @@ const Footer = () => {
         <Row className="d-flex align-items-center">
           <Col md={7} lg={8} className="text-center text-md-start">
             <div className="p-3">
-              © {new Date().getFullYear()} Prawa autorskie: +Kom
+              © {new Date().getFullYear()} Prawa autorskie: E-Amator
             </div>
           </Col>
           <Col md={5} lg={4} className="text-center text-md-end">

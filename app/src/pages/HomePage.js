@@ -1,7 +1,5 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
-import AppNavbar from "../components/Navbar";
-import AppFooter from "../components/Footer";
+import { Container, Box, Typography } from "@mui/material";
 import ProductZone from "../components/ProductZone";
 import Slider from "../components/Slider";
 import CookiesPopup from "../components/CookiesPopup";
@@ -10,7 +8,6 @@ function HomePage() {
     return (
         <>
             <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-                <AppNavbar />
                 <Container
                     maxWidth="lg"
                     sx={{
@@ -22,10 +19,22 @@ function HomePage() {
                     }}
                 >
                     <Slider />
+                    <Typography
+                        variant="h4"
+                        component="h2"
+                        sx={{ 
+                            fontWeight: 'bold', 
+                            marginTop: 4, 
+                            marginBottom: 2,
+                            color: '#333',
+                            textAlign: 'left' 
+                        }}
+                    >
+                        Polecane:
+                    </Typography>
                     <ProductZone />
                     <CookiesPopup/>
                 </Container>
-                <AppFooter />
             </Box>
         </>
     );

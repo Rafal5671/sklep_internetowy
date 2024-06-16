@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,27 @@ public class Orders {
     @JsonIgnoreProperties("orders")
     private User user;
 
-    private Boolean state;
-
     @Column(name = "total_price")
     private Float totalPrice;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
+
+    @Column(name = "ship_date")
+    private LocalDateTime shipDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderState state;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus type;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    @JsonIgnoreProperties("orders")
+    private Address address;
 }

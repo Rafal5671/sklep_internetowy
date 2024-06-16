@@ -25,4 +25,8 @@ public class ManufacturerController {
     public List<String> getManufacturersByCategory(@RequestParam("categoryId") Long categoryId) {
         return manufacturerService.getManufacturerNamesByCategory(categoryId);
     }
+    @GetMapping("/all")
+    public List<String> getAllManu() {
+        return manufacturerService.getAllManu();
+    }
 }

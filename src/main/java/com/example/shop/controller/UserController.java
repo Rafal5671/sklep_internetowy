@@ -1,6 +1,10 @@
 package com.example.shop.controller;
 
+import com.example.shop.DTO.UserDTO;
+import com.example.shop.DTO.UserLoginDto;
+import com.example.shop.DTO.UserSummaryDto;
 import com.example.shop.model.ApiResponse;
+import com.example.shop.model.LoginResponse;
 import com.example.shop.model.User;
 import com.example.shop.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -32,15 +36,16 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<ApiResponse> loginUser(@RequestBody User loginRequest, HttpSession session) {
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody User loginRequest, HttpSession session) {
         User user = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
-        ApiResponse response = new ApiResponse();
+        LoginResponse response = new LoginResponse();
         if (user != null) {
             session.setAttribute("user", user);
             response.setMessage("Login successful");
             response.setStatus(true);
-            response.setUser(user); // Set user in response
-
+            UserLoginDto userDTO = new UserLoginDto(user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getUserType());
+            response.setUser(userDTO);
+            System.out.println("Authenticated User: " + user.getUserType());
             return ResponseEntity.ok(response);
         } else {
             response.setMessage("Invalid email or password");
@@ -48,7 +53,11 @@ public class UserController {
             return ResponseEntity.status(401).body(response);
         }
     }
-
+    @GetMapping("/check-admin")
+    public ResponseEntity<Boolean> checkAdmin(@RequestParam String email) {
+        boolean isAdmin = userService.isAdmin(email);
+        return ResponseEntity.ok(isAdmin);
+    }
     @GetMapping("/api/logout")
     public ResponseEntity<ApiResponse> logoutUser(HttpSession session) {
         session.invalidate();
@@ -68,8 +77,8 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
@@ -79,7 +88,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/api/user-data/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public UserSummaryDto getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        UserSummaryDto userSummaryDto = new UserSummaryDto();
+        userSummaryDto.setId(user.getId());
+        userSummaryDto.setName(user.getName());
+        userSummaryDto.setEmail(user.getEmail());
+        userSummaryDto.setPhone(user.getPhone());
+        return userSummaryDto;
     }
 }

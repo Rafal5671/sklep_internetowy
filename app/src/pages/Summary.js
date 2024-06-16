@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import OrderSummary from '../components/OrderSummary';
-import AppNavbar from '../components/Navbar';
-import AppFooter from '../components/Footer';
 import axios from 'axios';
 import { Container, CircularProgress } from '@mui/material';
 
@@ -50,7 +48,6 @@ const OrderSummaryPage = () => {
 
   return (
     <>
-      <AppNavbar />
       <Container>
         <OrderSummary
           products={orderData.products}
@@ -59,7 +56,6 @@ const OrderSummaryPage = () => {
           user={user}
         />
       </Container>
-      <AppFooter />
     </>
   );
 };

@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import AppNavbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import axios from "axios";
 
 const PaymentSuccess = () => {
@@ -27,7 +25,6 @@ const PaymentSuccess = () => {
 
     return (
         <>
-            <AppNavbar />
             <Box
                 sx={{
                     display: "flex",
@@ -51,11 +48,10 @@ const PaymentSuccess = () => {
                     >
                         <CheckCircleIcon style={{ fontSize: 80, color: "green" }} />
                         <Typography variant="h4" gutterBottom>
-                            Płatność przebiegła pomyślnie!
+                            Zamówienie zostało złożone pomyślnie!
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Dziękujemy za dokonanie płatności. Twoja transakcja została
-                            pomyślnie zakończona.
+                            Dziękujemy za złożenie zamówienia.
                         </Typography>
                         <Button variant="contained" color="primary" href="/">
                             Powrót do strony głównej
@@ -63,7 +59,6 @@ const PaymentSuccess = () => {
                     </Box>
                 </Container>
             </Box>
-            <Footer />
         </>
     );
 };

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "products")
 @Getter
@@ -32,6 +30,9 @@ public class Product {
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     private float price;
 
     private String image;
@@ -39,6 +40,4 @@ public class Product {
     @Column(name = "cut_price")
     private Float cutPrice;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductTranslation> translations;
 }

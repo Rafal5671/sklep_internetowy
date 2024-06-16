@@ -20,4 +20,8 @@ public class ManufacturerService {
     public List<String> getManufacturerNamesByCategory(Long categoryId) {
         return manufacturerRepository.findManufacturerNamesByCategoryId(categoryId);
     }
+    public List<String> getAllManu()
+    {
+        return manufacturerRepository.findAllManufacturerNames();
+    }
 }

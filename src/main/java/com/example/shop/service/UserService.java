@@ -1,5 +1,6 @@
 package com.example.shop.service;
 
+import com.example.shop.DTO.UserDTO;
 import com.example.shop.model.Orders;
 import com.example.shop.model.User;
 import com.example.shop.model.UserType;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -38,7 +40,6 @@ public class UserService {
     public Orders createOrder(User user) {
         Orders orders = new Orders();
         orders.setUser(user);
-        orders.setState(false);
         orders.setTotalPrice(0.0f);
         return orderRepository.save(orders);
     }
@@ -64,8 +65,19 @@ public class UserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+    private UserDTO convertToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setName(user.getName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhone(user.getPhone());
+        userDTO.setPassword(user.getPassword());
+        return userDTO;
     }
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -74,5 +86,9 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         orderRepository.deleteAll(user.getOrders());
         userRepository.deleteById(id);
+    }
+    public boolean isAdmin(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null && user.getUserType() == UserType.ADMIN;
     }
 }

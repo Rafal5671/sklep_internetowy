@@ -3,8 +3,6 @@ import { Container, CssBaseline, Typography, Box, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import OrderSection from "../components/OrderSection";
-import AppNavbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const Profile = () => {
   const [activeSection, setActiveSection] = useState("orders");
@@ -14,7 +12,9 @@ const Profile = () => {
   useEffect(() => {
     const userJson = sessionStorage.getItem("user");
     if (userJson) {
-      setUser(JSON.parse(userJson));
+      const parsedUser = JSON.parse(userJson);
+      console.log("User object:", parsedUser); // Print the user object
+      setUser(parsedUser);
     } else {
       navigate("/login");
     }
@@ -22,7 +22,6 @@ const Profile = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
-
     sessionStorage.removeItem("basket");
     navigate("/");
   };
@@ -41,12 +40,11 @@ const Profile = () => {
   }
 
   return (
-      <>
-        <AppNavbar />
+    <>
       <CssBaseline />
       <Container maxWidth="lg" sx={{ display: "flex", flexDirection: "row", mt: 4, mb: 4 }}>
         <Box sx={{ width: "240px", mr: 4 }}>
-          <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} onLogout={handleLogout} />
+          <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} onLogout={handleLogout} userRole={user.userType} />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
           <Paper elevation={3} sx={{ padding: 3, backgroundColor: "#F5F5F5" }}>
@@ -59,8 +57,7 @@ const Profile = () => {
           </Paper>
         </Box>
       </Container>
-      <Footer />
-      </>
+    </>
   );
 };
 

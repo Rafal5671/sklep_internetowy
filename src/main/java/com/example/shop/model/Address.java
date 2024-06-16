@@ -1,10 +1,13 @@
 package com.example.shop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "addresses")
+@Table(name = "address")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,18 +16,15 @@ import lombok.*;
 @Builder
 public class Address {
     @Id
-    @Column(name = "address_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String city;
-
     private String street;
-
-    @Column(name = "postal_code")
     private String postalCode;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("address")
     private User user;
 }

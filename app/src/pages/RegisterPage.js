@@ -55,6 +55,7 @@ function RegisterPage() {
             if (loginData.status && loginData.user) {
               console.log("Storing user data to sessionStorage:", loginData.user);
               sessionStorage.setItem('user', JSON.stringify(loginData.user)); // Store user information in sessionStorage
+              window.dispatchEvent(new Event('loginStatusChanged'));  // Dispatch the event
               console.log("User logged in successfully:", loginData);
 
               navigate("/"); // Redirect to HomePage

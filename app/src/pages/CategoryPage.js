@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Typography, Box, Pagination } from "@mui/material";
-import AppNavbar from "../components/Navbar";
-import AppFooter from "../components/Footer";
 import ProductGrid from "../components/ProductGrid";
 import ProductFilter from "../components/ProductFilter";
 import axios from 'axios';
@@ -70,7 +68,6 @@ function CategoryPage() {
     return (
         <>
             <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-                <AppNavbar />
                 <Box
                     sx={{
                         display: "flex",
@@ -129,7 +126,6 @@ function CategoryPage() {
                         )}
                     </Container>
                 </Box>
-                <AppFooter />
             </Box>
         </>
     );

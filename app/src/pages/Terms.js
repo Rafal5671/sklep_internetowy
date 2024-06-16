@@ -1,12 +1,9 @@
 import React from "react";
-import AppNavbar from "../components/Navbar";
-import AppFooter from "../components/Footer";
 import { Container } from "@mui/material";
 
 const Terms = () => {
   return (
     <>
-      <AppNavbar />
       <Container
         sx={{
           py: 3,
@@ -97,7 +94,6 @@ const Terms = () => {
           <br />
         </p>
       </Container>
-      <AppFooter />
     </>
   );
 };

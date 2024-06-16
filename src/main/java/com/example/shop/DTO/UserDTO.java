@@ -7,9 +7,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDTO {
+public class UserDTO {
     private Long id;
-    private String city;
-    private String street;
-    private String postalCode;
+    private String email;
+    private String name;
+    private String password;
+    private String lastName;
+    private int phone;
+    // inne pola...
 }
+

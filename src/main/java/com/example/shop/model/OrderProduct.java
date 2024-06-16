@@ -1,6 +1,7 @@
 package com.example.shop.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class OrderProduct {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties("orderProducts")
     private Product product;
 
     private int quantity;

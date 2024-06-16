@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -175,6 +176,15 @@ export default function AdminPage() {
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
   const [selectedView, setSelectedView] = useState('users');
   const [selectedSubView, setSelectedSubView] = useState('viewUsers');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+
+    if (!user || user.userType !== 'ADMIN') {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -215,6 +225,12 @@ export default function AdminPage() {
         return <Users />;
     }
   };
+
+  // Check if user is an admin before rendering the page
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  if (!user || user.userType !== 'ADMIN') {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={theme}>

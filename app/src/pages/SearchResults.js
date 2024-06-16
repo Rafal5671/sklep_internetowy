@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Container, Typography, Box } from "@mui/material";
-import AppNavbar from "../components/Navbar";
-import AppFooter from "../components/Footer";
 import ProductGrid from "../components/ProductGrid";
-import ProductFilter from "../components/ProductFilter"; // Import the ProductFilter component
+import Filter from "../components/Filter";
 import axios from 'axios';
 
 function SearchResults() {
     const location = useLocation();
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filters, setFilters] = useState({});
     const [query, setQuery] = useState("");
+    const [manufacturers, setManufacturers] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         const searchQuery = new URLSearchParams(location.search).get("query");
@@ -23,7 +24,18 @@ function SearchResults() {
                 const response = await axios.get(`http://localhost:8081/api/products/search?query=${searchQuery}`);
                 console.log('Fetched search results:', response.data);
                 setProducts(response.data);
+                setFilteredProducts(response.data); // Set initial filtered products to all products
                 setIsLoading(false);
+                
+                // Extract unique manufacturers from the products
+                const uniqueManufacturers = [...new Set(response.data.map(product => product.manufacturerName))];
+                console.log(uniqueManufacturers);
+                setManufacturers(uniqueManufacturers);
+
+                // Extract unique categories from the products
+                const uniqueCategories = [...new Set(response.data.map(product => product.categoryName))];
+                console.log(uniqueCategories);
+                setCategories(uniqueCategories);
             } catch (error) {
                 console.error('Failed to fetch search results:', error);
             }
@@ -35,13 +47,21 @@ function SearchResults() {
     const handleFilterChange = (newFilters) => {
         console.log(newFilters);
         setFilters(newFilters);
-        // Apply filtering logic if needed
+
+        // Apply filters to products
+        const filtered = products.filter(product => {
+            const meetsPriceFrom = !newFilters.priceFrom || product.price >= newFilters.priceFrom;
+            const meetsPriceTo = !newFilters.priceTo || product.price <= newFilters.priceTo;
+            const meetsManufacturers = !newFilters.selectedManufacturers || newFilters.selectedManufacturers.length === 0 || newFilters.selectedManufacturers.includes(product.manufacturerName);
+            const meetsCategories = !newFilters.selectedCategories || newFilters.selectedCategories.length === 0 || newFilters.selectedCategories.includes(product.categoryName);
+            return meetsPriceFrom && meetsPriceTo && meetsManufacturers && meetsCategories;
+        });
+        setFilteredProducts(filtered);
     };
 
     return (
         <>
             <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-                <AppNavbar />
                 <Box
                     sx={{
                         display: "flex",
@@ -54,7 +74,7 @@ function SearchResults() {
                     }}
                 >
                     <Box sx={{ mr: 1, minWidth: '250px' }}>
-                        <ProductFilter onFilterChange={handleFilterChange} />
+                        <Filter onFilterChange={handleFilterChange} manufacturers={manufacturers} categories={categories} />
                     </Box>
                     <Container
                         maxWidth="lg"
@@ -63,10 +83,10 @@ function SearchResults() {
                             py: 3,
                             borderRadius: 7,
                             backgroundColor: "white",
-                            marginLeft: 4, // Remove left margin
-                            marginRight: 0, // Remove right margin
-                            paddingLeft: '8px', // Add slight padding to the left
-                            paddingRight: '8px', // Add slight padding to the right
+                            marginLeft: 4,
+                            marginRight: 0,
+                            paddingLeft: '8px',
+                            paddingRight: '8px',
                         }}
                     >
                         {isLoading ? (
@@ -80,17 +100,16 @@ function SearchResults() {
                                         Wyniki wyszukiwania dla "{query}"
                                     </Typography>
                                     <Typography sx={{ color: "gray", ml: 2 }} variant="h5" paragraph>
-                                        ({products.length} results)
+                                        ({filteredProducts.length} wyników)
                                     </Typography>
                                 </Box>
                                 <Box sx={{ textAlign: "justify" }}>
-                                    <ProductGrid products={products} />
+                                    <ProductGrid products={filteredProducts} />
                                 </Box>
                             </>
                         )}
                     </Container>
                 </Box>
-                <AppFooter />
             </Box>
         </>
     );

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/orderDetails")
 public class OrderDetailsController {
 
     @Autowired
@@ -92,13 +92,11 @@ public class OrderDetailsController {
             }
         }
         orders.setTotalPrice(totalPrice);
-        orders.setState(true);
         orderRepository.save(orders);
 
         // Create a new basket for the user
         Orders newOrders = new Orders();
         newOrders.setUser(user);
-        newOrders.setState(false);
         newOrders.setTotalPrice(0.0f);
         orderRepository.save(newOrders);
 

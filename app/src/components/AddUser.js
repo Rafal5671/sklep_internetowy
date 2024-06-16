@@ -16,8 +16,23 @@ function AddUser() {
     event.preventDefault();
 
     // Validation
+    if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
+      setError('Wszystkie pola są wymagane');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Email jest nieprawidłowy');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Hasło muszi mieć co najmniej 6 znaków');
+      return;
+    }
+
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError('Hasła się nie zgadzają');
       return;
     }
 
@@ -31,7 +46,7 @@ function AddUser() {
       });
 
       if (response.status === 200) {
-        setSuccess('User added successfully');
+        setSuccess('Użytkownik dodany pomyślnie');
         setFirstName('');
         setLastName('');
         setEmail('');
@@ -61,6 +76,8 @@ function AddUser() {
                   fullWidth
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
+                  error={Boolean(error && !firstName)}
+                  helperText={error && !firstName ? 'Imię jest wymagane' : ''}
               />
             </Grid>
             <Grid item xs={12}>
@@ -69,6 +86,8 @@ function AddUser() {
                   fullWidth
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  error={Boolean(error && !lastName)}
+                  helperText={error && !lastName ? 'Nazwisko jest wymagane' : ''}
               />
             </Grid>
             <Grid item xs={12}>
@@ -78,6 +97,8 @@ function AddUser() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  error={Boolean(error && (!email || !/\S+@\S+\.\S+/.test(email)))}
+                  helperText={error && (!email ? 'Email jest wymagany' : !/\S+@\S+\.\S+/.test(email) ? 'Email jest nieprawidłowy' : '')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -87,6 +108,8 @@ function AddUser() {
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
+                  error={Boolean(error && !phoneNumber)}
+                  helperText={error && !phoneNumber ? 'Numer telefonu jest wymagany' : ''}
               />
             </Grid>
             <Grid item xs={12}>
@@ -96,6 +119,8 @@ function AddUser() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  error={Boolean(error && (!password || password.length < 6))}
+                  helperText={error && (!password ? 'Hasło jest wymagane' : password.length < 6 ? 'Hasło musi mieć co najmniej 6 znaków' : '')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,6 +130,8 @@ function AddUser() {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  error={Boolean(error && (confirmPassword !== password))}
+                  helperText={error && (confirmPassword !== password) ? 'Hasła się nie zgadzają' : ''}
               />
             </Grid>
             <Grid item xs={12}>

@@ -12,5 +12,6 @@ import java.util.List;
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
     @Query("SELECT DISTINCT m.name FROM Manufacturer m JOIN m.products p WHERE p.category.id = :categoryId")
     List<String> findManufacturerNamesByCategoryId(@Param("categoryId") Long categoryId);
-
+    @Query("SELECT DISTINCT m.name FROM Manufacturer m")
+    List<String> findAllManufacturerNames();
 }

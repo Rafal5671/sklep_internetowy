@@ -15,7 +15,6 @@ function AddUser() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validation
     if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
       setError('Wszystkie pola są wymagane');
       return;

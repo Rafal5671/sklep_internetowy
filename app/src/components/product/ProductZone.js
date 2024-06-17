@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductGrid from "../components/ProductGrid";
+import ProductGrid from "./ProductGrid";
 import axios from "axios";
 
 function ProductZone() {

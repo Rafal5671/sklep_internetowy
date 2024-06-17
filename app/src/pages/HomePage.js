@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Box, Typography } from "@mui/material";
-import ProductZone from "../components/ProductZone";
+import ProductZone from "../components/product/ProductZone";
 import Slider from "../components/Slider";
 import CookiesPopup from "../components/CookiesPopup";
 
@@ -15,7 +15,7 @@ function HomePage() {
                         marginTop: 3,
                         marginBottom: 3,
                         borderRadius: 7,
-                        backgroundColor: "white",
+                        backgroundColor: "#f5f5f5",
                     }}
                 >
                     <Slider />

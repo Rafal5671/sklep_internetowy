@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
-import AppNavbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import AppNavbar from "../components/navigation/Navbar";
+import Footer from "../components/navigation/Footer";
 
 const PaymentFailure = () => {
   return (

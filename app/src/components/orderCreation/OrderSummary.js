@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import axios from 'axios';
 import {useNavigate } from "react-router-dom";
-import { useCart } from "./CartContext"; 
+import { useCart } from "../cart/CartContext"; 
 const OrderSummary = ({ products, totalPrice, address, user }) => {
   const { clearCart } = useCart(); 
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const OrderSummary = ({ products, totalPrice, address, user }) => {
         })),
         totalPrice: totalPrice,
         email: user.email, 
-        city: address.city,  // Include new address fields
-        street: address.address, // Assuming address contains street information
+        city: address.city,
+        street: address.address,
         postalCode: address.postalCode
       };
       const response = await axios.post('http://localhost:8081/api/order/create', orderRequest, { withCredentials: true });

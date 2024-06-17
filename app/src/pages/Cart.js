@@ -1,6 +1,6 @@
 import React from "react";
 import { Box,Container } from "@mui/material";
-import CartZone from "../components/CartZone";
+import CartZone from "../components/cart/CartZone";
 function Cart() {
   return (
     <>

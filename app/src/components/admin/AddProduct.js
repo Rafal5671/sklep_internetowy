@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Grid, Typography, Container, MenuItem, Select, FormControl, InputLabel, FormHelperText, Alert } from '@mui/material';
+import { TextField, Button, Grid, Typography, Container, MenuItem, Select, FormControl, FormHelperText, Alert } from '@mui/material';
 import axios from 'axios';
 
 function AddProduct() {
@@ -55,6 +55,7 @@ function AddProduct() {
         category: { id: parseInt(categoryId) }
       };
       const response = await axios.post('http://localhost:8081/api/products/add', product, { withCredentials: true });
+      console.log(response);
       setSuccess('Produkt dodany pomyślnie');
       setProductName('');
       setDescription('');

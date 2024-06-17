@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { styled, alpha } from '@mui/material/styles';
 import {
   AppBar,
-  TextField,
+  Box,
   Toolbar,
   IconButton,
   Typography,
   Button,
-  Box,
   Container,
   Drawer,
   List,
@@ -15,15 +14,68 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  Badge
+  Badge,
+  ListItemIcon,
 } from '@mui/material';
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link as RouterLink } from "react-router-dom";
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useCart } from './CartContext';
+import { useCart } from '../cart/CartContext';
+import ComputerIcon from '@mui/icons-material/Computer';
+import SmartphoneIcon from '@mui/icons-material/Smartphone';
+import TabletAndroidIcon from '@mui/icons-material/TabletAndroid';
+import WatchIcon from '@mui/icons-material/Watch';
+import TvIcon from '@mui/icons-material/Tv';
+import MonitorIcon from '@mui/icons-material/Monitor';
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+  [theme.breakpoints.up('md')]: {
+    width: '40ch',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: theme.palette.common.white,
+}));
+
+const StyledInputBase = styled('input')(({ theme }) => ({
+  color: 'inherit',
+  width: '100%',
+  padding: theme.spacing(1, 1, 1, 0),
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  transition: theme.transitions.create('width'),
+  [theme.breakpoints.up('sm')]: {
+    width: '20ch',
+    '&:focus': {
+      width: '30ch',
+    },
+  },
+  border: 'none',
+  outline: 'none',
+  background: 'transparent',
+}));
 
 const AppNavbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,10 +90,6 @@ const AppNavbar = () => {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleProfileMenuOpen = (event) => {
-    setProfileMenuAnchorEl(event.currentTarget);
   };
 
   const handleProfileMenuClose = () => {
@@ -139,6 +187,14 @@ const AppNavbar = () => {
             key={category.id}
             onClick={() => handleCategoryClick(category.id)}
           >
+            <ListItemIcon sx={{ color: 'white' }}>
+              {category.categoryName === "Laptopy i Komputery" && <ComputerIcon />}
+              {category.categoryName === "Smartfony" && <SmartphoneIcon />}
+              {category.categoryName === "Tablety" && <TabletAndroidIcon />}
+              {category.categoryName === "Smartwatche" && <WatchIcon />}
+              {category.categoryName === "Telewizory" && <TvIcon />}
+              {category.categoryName === "Monitory" && <MonitorIcon />}
+            </ListItemIcon>
             <ListItemText primary={category.categoryName} />
           </ListItem>
         ))}
@@ -182,6 +238,14 @@ const AppNavbar = () => {
                   key={category.id}
                   onClick={() => handleCategoryClick(category.id)}
                 >
+                  <ListItemIcon sx={{ color: 'white' }}>
+                    {category.categoryName === "Laptopy i Komputery" && <ComputerIcon />}
+                    {category.categoryName === "Smartfony" && <SmartphoneIcon />}
+                    {category.categoryName === "Tablety" && <TabletAndroidIcon />}
+                    {category.categoryName === "Smartwatche" && <WatchIcon />}
+                    {category.categoryName === "Telewizory" && <TvIcon />}
+                    {category.categoryName === "Monitory" && <MonitorIcon />}
+                  </ListItemIcon>
                   {category.categoryName}
                 </MenuItem>
               ))}
@@ -196,43 +260,33 @@ const AppNavbar = () => {
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <img
-                  src="/plus_kom_logo_light.svg"
+                  src="/E-Amator.svg"
                   alt="Logo"
                   style={{ maxHeight: "60px" }}
                 />
               </RouterLink>
             </Typography>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
-              <TextField
-                variant="outlined"
-                placeholder="Czego szukasz?"
-                size="small"
-                value={searchQuery}
-                onChange={handleSearchInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-                sx={{
-                  input: { color: "white" },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "white",
-                  },
-                }}
-              />
-              <IconButton
-                sx={{ ml: 1, color: "white" }}
-                onClick={handleSearch}
-              >
-                <SearchIcon />
-              </IconButton>
+            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Czego szukasz?"
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
+                />
+              </Search>
             </Box>
             <IconButton sx={{ color: "white" }} component={RouterLink} to="/cart">
               <Badge badgeContent={cartCount} color="secondary">
-                <ShoppingCartIcon />
+                <ShoppingCartIcon sx={{ fontSize: 30 }} />
               </Badge>
             </IconButton>
             <IconButton
@@ -242,7 +296,7 @@ const AppNavbar = () => {
               color="inherit"
               onClick={handleUserButtonClick}
             >
-              <AccountCircleIcon />
+              <AccountBoxIcon sx={{ fontSize: 30 }} />
             </IconButton>
             <Menu
               anchorEl={profileMenuAnchorEl}
@@ -266,7 +320,7 @@ const AppNavbar = () => {
       </AppBar>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "grey", display: { xs: "none", sm: "block" } }}
+        sx={{ backgroundColor: "#2c3e50", display: { xs: "none", sm: "block" } }}
       >
         <Toolbar variant="dense">
           <Container>
@@ -275,6 +329,7 @@ const AppNavbar = () => {
                 flexGrow: 1,
                 display: "flex",
                 justifyContent: "space-evenly",
+                py: 1,
               }}
             >
               {categories.map((category) => (
@@ -282,8 +337,16 @@ const AppNavbar = () => {
                   key={category.id}
                   component={RouterLink}
                   to={`/category/${category.id}`}
-                  sx={{ color: "white" }}
+                  sx={{ color: "white", textTransform: "none" }}
                 >
+                  <ListItemIcon sx={{ color: 'white' }}>
+                    {category.categoryName === "Laptopy i Komputery" && <ComputerIcon />}
+                    {category.categoryName === "Smartfony" && <SmartphoneIcon />}
+                    {category.categoryName === "Tablety" && <TabletAndroidIcon />}
+                    {category.categoryName === "Smartwatche" && <WatchIcon />}
+                    {category.categoryName === "Telewizory" && <TvIcon />}
+                    {category.categoryName === "Monitory" && <MonitorIcon />}
+                  </ListItemIcon>
                   {category.categoryName}
                 </Button>
               ))}
@@ -296,7 +359,7 @@ const AppNavbar = () => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
           display: { xs: "block", sm: "none" },

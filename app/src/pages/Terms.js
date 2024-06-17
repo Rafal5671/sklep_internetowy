@@ -10,19 +10,19 @@ const Terms = () => {
           marginTop: 3,
           marginBottom: 3,
           borderRadius: 7,
-          backgroundColor: "white",
+          backgroundColor: "#f5f5f5",
         }}
       >
         <h1>Regulamin</h1>
         <h2>1. Postanowienia ogólne</h2>
         <p>
           Niniejszy regulamin określa zasady korzystania ze sklepu internetowego
-          + Kom.
+          E-Amator.
         </p>
 
         <h2>2. Definicje</h2>
         <p>
-          <strong>Sprzedawca</strong> - +Kom, z siedzibą w Łodzi,
+          <strong>Sprzedawca</strong> - E-Amator, z siedzibą w Łodzi,
           <br />
           <strong>Klient</strong> - osoba fizyczna, prawna lub jednostka
           organizacyjna nieposiadająca osobowości prawnej, która dokonuje

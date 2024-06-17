@@ -45,7 +45,6 @@ const DeliveryForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate form fields
     const newErrors = Object.keys(form).reduce((acc, key) => {
       const error = validateField(key, form[key]);
       if (error) acc[key] = error;
@@ -53,12 +52,8 @@ const DeliveryForm = () => {
     }, {});
 
     setErrors(newErrors);
-
-    // Check if there are no validation errors
     if (Object.values(newErrors).every(x => x === '')) {
-      // Save address to session storage
       sessionStorage.setItem('deliveryAddress', JSON.stringify(form));
-      // Redirect to order summary page
       navigate('/summary');
     }
   };

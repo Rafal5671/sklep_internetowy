@@ -1,27 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import axios from "axios";
 
 const PaymentSuccess = () => {
-    useEffect(() => {
-        const basketId = sessionStorage.getItem("basketId");
-        if (basketId) {
-            // Call backend to update payment status
-            axios
-                .patch(`http://localhost:8081/api/order/update-payment-status/${basketId}`, {
-                    paymentStatus: "PAID",
-                })
-                .then((response) => {
-                    console.log("Payment status updated successfully:", response.data);
-                })
-                .catch((error) => {
-                    console.error("Error updating payment status:", error);
-                });
-
-            sessionStorage.removeItem('basketId');
-        }
-    }, []);
 
     return (
         <>

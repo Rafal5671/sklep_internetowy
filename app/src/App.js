@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider } from './AuthContext';
-import { CartProvider } from './components/CartContext';
+import { CartProvider } from './components/cart/CartContext';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
@@ -17,9 +17,8 @@ import AdminPage from "./pages/AdminPage";
 import PaymentSuccess from "./pages/Succes";
 import PaymentFailure from "./pages/Failure";
 import Terms from './pages/Terms';
-import AppNavbar from './components/Navbar';
-import Footer from './components/Footer';
-import PrivateRoute from './PrivateRoute'; // Import PrivateRoute
+import AppNavbar from './components/navigation/Navbar';
+import Footer from './components/navigation/Footer';
 
 function Layout({ children }) {
     const location = useLocation();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Typography, Box, Pagination } from "@mui/material";
-import ProductGrid from "../components/ProductGrid";
-import ProductFilter from "../components/ProductFilter";
+import { Container, Typography, Box, Pagination, FormControl, Select, MenuItem } from "@mui/material";
+import ProductGrid from "../components/product/ProductGrid";
+import ProductFilter from "../components/product/ProductFilter";
 import axios from 'axios';
 
 function CategoryPage() {
@@ -16,6 +16,7 @@ function CategoryPage() {
         priceTo: '',
     });
     const [page, setPage] = useState(1);
+    const [sortOption, setSortOption] = useState('name-asc');
     const itemsPerPage = 12;
 
     useEffect(() => {
@@ -38,6 +39,10 @@ function CategoryPage() {
         fetchCategoryData();
     }, [categoryId]);
 
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
+    };
+
     const applyFilters = (products, filters) => {
         return products.filter(product => {
             const meetsPriceFrom = filters.priceFrom ? product.price >= filters.priceFrom : true;
@@ -45,6 +50,21 @@ function CategoryPage() {
             const meetsProducers = filters.producers.length > 0 ? filters.producers.some(producer => product.productName.toLowerCase().includes(producer.toLowerCase())) : true;
 
             return meetsPriceFrom && meetsPriceTo && meetsProducers;
+        });
+    };
+
+    const sortProducts = (products, sortOption) => {
+        return [...products].sort((a, b) => {
+            if (sortOption === 'name-asc') {
+                return a.productName.localeCompare(b.productName);
+            } else if (sortOption === 'name-desc') {
+                return b.productName.localeCompare(a.productName);
+            } else if (sortOption === 'price-asc') {
+                return a.price - b.price;
+            } else if (sortOption === 'price-desc') {
+                return b.price - a.price;
+            }
+            return 0;
         });
     };
 
@@ -62,9 +82,11 @@ function CategoryPage() {
     };
 
     const filteredProducts = applyFilters(products, filters);
-    const paginatedProducts = filteredProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+    const sortedProducts = sortProducts(filteredProducts, sortOption);
+    const paginatedProducts = sortedProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
     const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
     const productText = filteredProducts.length === 1 ? 'wynik' : 'wyniki';
+
     return (
         <>
             <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -88,7 +110,7 @@ function CategoryPage() {
                             flex: 1,
                             py: 3,
                             borderRadius: 7,
-                            backgroundColor: "white",
+                            backgroundColor: "#f5f5f5",
                             marginLeft: 4,
                             marginRight: 0,
                             paddingLeft: '8px',
@@ -101,13 +123,27 @@ function CategoryPage() {
                             </Typography>
                         ) : (
                             <>
-                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", mb: 2 }}>
-                                    <Typography variant="h3" paragraph>
-                                        {categoryName}
-                                    </Typography>
-                                    <Typography sx={{ color: "gray", ml: 2 }} variant="h5" paragraph>
-                                        ({filteredProducts.length} {productText})
-                                    </Typography>
+                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", mb: 2, justifyContent: "space-between" }}>
+                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                        <Typography variant="h3" paragraph>
+                                            {categoryName}
+                                        </Typography>
+                                        <Typography sx={{ color: "gray", ml: 2 }} variant="h5" paragraph>
+                                            ({filteredProducts.length} {productText})
+                                        </Typography>
+                                    </Box>
+                                    <FormControl sx={{ minWidth: 200 }}>
+                                        <Select
+                                            labelId="sort-option-label"
+                                            value={sortOption}
+                                            onChange={handleSortOptionChange}
+                                        >
+                                            <MenuItem value="name-asc">Nazwa rosnąco</MenuItem>
+                                            <MenuItem value="name-desc">Nazwa malejąco</MenuItem>
+                                            <MenuItem value="price-asc">Cena rosnąco</MenuItem>
+                                            <MenuItem value="price-desc">Cena malejąco</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Box>
                                 <Box sx={{ textAlign: "justify" }}>
                                     <ProductGrid products={paginatedProducts} onAddToBasket={handleAddToBasket} />

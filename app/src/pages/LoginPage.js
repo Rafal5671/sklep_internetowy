@@ -38,12 +38,12 @@ function LoginPage() {
       });
 
       const res = await response.json();
-      console.log("Full Response: ", res); // Log the full response
+      console.log("Full Response: ", res);
 
       if (response.ok && res.status && res.user) {
         sessionStorage.setItem('user', JSON.stringify(res.user));
-        console.log("User Response: ", res.user);  // Log the entire user object
-        window.dispatchEvent(new Event('loginStatusChanged'));  // Dispatch the event
+        console.log("User Response: ", res.user);
+        window.dispatchEvent(new Event('loginStatusChanged'));
         navigate("/");
       } else {
         setErrorMessage(res.message || "Failed to log in. Please try again.");

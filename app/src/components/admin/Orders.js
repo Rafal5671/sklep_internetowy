@@ -47,6 +47,7 @@ function Orders() {
                     withCredentials: true,
                 }
             );
+            console.log(response);
             setOrders(orders.map(order => (order.id === id ? { ...order, state: newState } : order)));
         } catch (error) {
             console.error('Error updating order status:', error);

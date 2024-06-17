@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TablePagination, TableSortLabel } from '@mui/material';
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TablePagination, TableSortLabel, TextField } from '@mui/material';
 
 function Products() {
     const [products, setProducts] = useState([]);
@@ -10,6 +10,7 @@ function Products() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('id');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -59,8 +60,17 @@ function Products() {
         setOrderBy(property);
     };
 
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+        setPage(0);
+    };
+
+    const filteredProducts = products.filter(product => 
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const sortedProducts = () => {
-        return products.slice().sort((a, b) => {
+        return filteredProducts.slice().sort((a, b) => {
             if (orderBy === 'id') {
                 return (order === 'asc' ? a.id - b.id : b.id - a.id);
             }
@@ -73,6 +83,14 @@ function Products() {
             <Typography variant="h4" gutterBottom>
                 Produkty
             </Typography>
+            <TextField
+                label="Szukaj"
+                variant="outlined"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                fullWidth
+                margin="normal"
+            />
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -115,7 +133,7 @@ function Products() {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={products.length}
+                    count={filteredProducts.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

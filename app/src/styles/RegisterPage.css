@@ -3,14 +3,14 @@ body {
     background: #6a11cb;
   
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+    background: -webkit-linear-gradient(to right, #8e44ad, #e91e63);
   
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+    background: linear-gradient(to right, #8e44ad, #e91e63)
   }
   .mdb-input {
-    width: 95%; /* or any other percentage or fixed width you prefer */
-    margin: auto; /* centers the input box if it's not full-width */
+    width: 95%; 
+    margin: auto;
   }
   .label-fade {
       transition: opacity 0.5s ease-out;

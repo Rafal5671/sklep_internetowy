@@ -1,5 +1,5 @@
 import React from "react";
-import DeliveryForm from "../components/DeliveryForm";
+import DeliveryForm from "../components/orderCreation/DeliveryForm";
 import { Container } from "@mui/system";
 const Delivery = () => {
   return (

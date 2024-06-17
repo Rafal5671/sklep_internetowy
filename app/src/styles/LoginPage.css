@@ -3,24 +3,24 @@ body {
   background: #6a11cb;
 
   /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+  background: -webkit-linear-gradient(to right, #8e44ad, #e91e63);
 
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+  background: linear-gradient(to right, #8e44ad, #e91e63);
 }
 
 .btn-login {
-  padding: 0.75rem 1.5rem;  /* Duże paddingi dla lepszej widoczności */
-  font-size: 1.25rem;       /* Większa czcionka */
-  color: #fff;              /* Biały tekst */
-  background-color: #1266F1; /* Niebieskie tło */
-  border: none;             /* Brak obramowania */
-  border-radius: 0.5rem;    /* Zaokrąglone rogi */
-  transition: background-color 0.3s; /* Animacja tła przy hover */
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  color: #fff;
+  background-color: #1266F1;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
 }
 
 .btn-login:hover {
-  background-color: #0d6efd; /* Ciemniejszy niebieski przy hover */
+  background-color: #0d6efd;
 }
 
 .login-container {
@@ -31,8 +31,8 @@ body {
 }
 
 .mdb-input {
-  width: 95%; /* or any other percentage or fixed width you prefer */
-  margin: auto; /* centers the input box if it's not full-width */
+  width: 95%;
+  margin: auto; 
 }
 
 .label-fade {

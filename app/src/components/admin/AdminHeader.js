@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
@@ -8,10 +8,34 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 function Header(props) {
   const { onDrawerToggle, currentView, currentSubView, onSubViewChange } = props;
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMyAccount = () => {
+    navigate('/profile');
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setIsLoggedIn(false);
+    console.log(isLoggedIn);
+    window.dispatchEvent(new Event('loginStatusChanged'));
+    navigate('/');
+  };
 
   const getHeaderTitle = () => {
     switch (currentView) {
@@ -70,9 +94,17 @@ function Header(props) {
             </Grid>
             <Grid item xs />
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }}>
+              <IconButton color="inherit" sx={{ p: 0.5 }} onClick={handleMenuOpen}>
                 <AccountCircleIcon />
               </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleMyAccount}>Moje konto</MenuItem>
+                <MenuItem onClick={handleLogout}>Wyloguj</MenuItem>
+              </Menu>
             </Grid>
           </Grid>
         </Toolbar>

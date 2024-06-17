@@ -8,18 +8,19 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import GoogleIcon from "@mui/icons-material/Google";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Link } from "react-router-dom";
-import "../styles/Footer.css";
+import "../../styles/Footer.css";
 
 const Footer = () => {
   return (
     <footer
       style={{
-        backgroundColor: "#45526e",
+        backgroundColor: "#2c3e50",
         color: "white",
         textAlign: "center",
+        padding: "20px 0",
       }}
     >
-      <Container className="p-4 pb-0">
+      <Container>
         <Row>
           <Col md={3} lg={3} xl={3} className="mt-3">
             <h6 className="text-uppercase mb-4 font-weight-bold">E-Amator</h6>
@@ -34,8 +35,10 @@ const Footer = () => {
             <h6 className="text-uppercase mb-4 font-weight-bold">Produkty</h6>
             <p>Laptopy i komputery</p>
             <p>Smartfony</p>
-            <p>Monitory</p>
+            <p>Tablety</p>
             <p>Smartwatche</p>
+            <p>Telewizory</p>
+            <p>Monitory</p>
           </Col>
 
           <Col md={3} lg={3} xl={3} className="mt-3">
@@ -67,7 +70,7 @@ const Footer = () => {
           </Col>
         </Row>
 
-        <hr className="my-3" />
+        <hr className="my-3" style={{ borderColor: "rgba(255, 255, 255, 0.3)" }} />
 
         <Row className="d-flex align-items-center">
           <Col md={7} lg={8} className="text-center text-md-start">

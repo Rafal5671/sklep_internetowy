@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography, Select, MenuItem, FormControl } from '@mui/material';
 
 const OrderSection = () => {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState(null);
+    const [sortOption, setSortOption] = useState('date-desc');
 
     useEffect(() => {
         const loggedUser = JSON.parse(sessionStorage.getItem('user'));
@@ -32,16 +33,45 @@ const OrderSection = () => {
         }
     }, []);
 
-    if (!Array.isArray(orders)) {
-        console.error('Orders is not an array:', orders);
-        return null;
-    }
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
+    };
 
-    const userOrders = orders.filter(order => order.user && order.user.id === user?.id);
+    const sortOrders = (orders) => {
+        const sortedOrders = [...orders];
+        sortedOrders.sort((a, b) => {
+            let comparison = 0;
+            if (sortOption.includes('date')) {
+                comparison = new Date(a.orderDate) - new Date(b.orderDate);
+            } else if (sortOption.includes('price')) {
+                comparison = a.totalPrice - b.totalPrice;
+            }
+            return sortOption.endsWith('asc') ? comparison : -comparison;
+        });
+        return sortedOrders;
+    };
+
+    const sortedOrders = sortOrders(orders);
+    const userOrders = sortedOrders.filter(order => order.user && order.user.id === user?.id);
 
     return (
         <Box mb={4} style={{ color: '#000' }}>
-            <Typography variant="h6" style={{ color: '#000' }}>Zamówienia</Typography>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography variant="h6" style={{ color: '#000' }}>Zamówienia</Typography>
+                <FormControl>
+                    <Select
+                        labelId="sort-option-label"
+                        value={sortOption}
+                        onChange={handleSortOptionChange}
+                    >
+                        <MenuItem value="date-asc">Data Rosnąco</MenuItem>
+                        <MenuItem value="date-desc">Data Malejąco</MenuItem>
+                        <MenuItem value="price-asc">Cena Rosnąco</MenuItem>
+                        <MenuItem value="price-desc">Cena Malejąco</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
+
             {userOrders.map((order) => (
                 <Paper key={order.id} elevation={3} style={{ padding: '16px', marginTop: '16px', backgroundColor: '#fff' }}>
                     <Typography variant="body1"><strong>{order.state === 'DELIVERED' ? 'Zakończone' : 'W toku'}</strong></Typography>

@@ -87,7 +87,7 @@ const Filter = ({ onFilterChange, manufacturers, categories }) => {
   };
 
   return (
-    <Box sx={{ padding: 2, width: 300, backgroundColor: 'white', borderRadius: 7 }}>
+    <Box sx={{ padding: 2, width: 300, backgroundColor: '#f5f5f5', borderRadius: 7 }}>
       <Typography variant="h6">Filtry</Typography>
 
       {categories.length > 0 && (

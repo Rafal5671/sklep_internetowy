@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grid, Card, CardContent, Typography, Button, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Grid, Card, CardContent, Typography, Button, Divider, Snackbar } from '@mui/material';
 import CartItem from './CartItem';
 import { Link } from 'react-router-dom';
 import CartSummary from './CartSummary';
 import { ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from './CartContext'; // Import useCart hook
+import { useCart } from './CartContext';
+
 
 const CartZone = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart(); // Use the context functions and state
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
+
+  const [showEmptyCartSnackbar, setShowEmptyCartSnackbar] = useState(false);
 
   const handleQuantityChange = (id, newQuantity) => {
     updateQuantity(id, newQuantity);
@@ -21,15 +24,19 @@ const CartZone = () => {
 
   const handleDelivery = () => {
     if (cartItems.length === 0) {
-      alert("Your cart is empty. Please add items to your cart before proceeding to delivery.");
-      return;
-    }
-    const user = sessionStorage.getItem('user');
-    if (user) {
-      navigate('/delivery');
+      setShowEmptyCartSnackbar(true);
     } else {
-      navigate('/login');
+      const user = sessionStorage.getItem('user');
+      if (user) {
+        navigate('/delivery');
+      } else {
+        navigate('/login');
+      }
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowEmptyCartSnackbar(false);
   };
 
   const itemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
@@ -90,8 +97,15 @@ const CartZone = () => {
           </Grid>
         </Grid>
       </Container>
+      <Snackbar
+        open={showEmptyCartSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="Twój koszyk jest pusty. Proszę dodaj produkty do koszyka przed przejściem do dostawy."
+      />
     </section>
   );
 }
 
 export default CartZone;
+

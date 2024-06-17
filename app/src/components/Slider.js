@@ -13,37 +13,30 @@ const images = [
   {
     label: 'Laptopy, tablety i GSM w promocji',
     imgPath: 'https://cdn.evergage.com/promotions/xkomspzoo/xkom/iiS3C/vq4IG.jpg',
-    description: '6/128GB Midnight Black - najlepsza cena'
   },
   {
     label: 'Poznaj G4M3R Elite',
     imgPath: 'https://cdn.x-kom.pl/i/img/banners/1442x316,,36782f11ff0b4bc3ab50bea4b4407f85.jpg?filters=trim',
-    description: '6/128GB Midnight Black - najlepsza cena'
   },
   {
     label: 'Letnia oferta Xiaomi',
     imgPath: 'https://cdn.x-kom.pl/i/img/banners/1140x250,,9257735184e84b2f8806c5c467456cef.jpg?filters=trim',
-    description: '6/128GB Midnight Black - najlepsza cena'
   },
   {
     label: 'Laptop dla nauczyciela',
     imgPath: 'https://cdn.x-kom.pl/i/img/banners/1442x316,,04dcb2b700df42d5aec3342390698d89.jpg?filters=trim',
-    description: '6/128GB Midnight Black - najlepsza cena'
   },
   {
     label: 'Urządzenia peryferyjne taniej do 31%',
     imgPath: 'https://cdn.x-kom.pl/i/img/banners/1442x316,,bb8ab9eb1a654dd7877e39a1ade07e23.jpg?filters=trim',
-    description: '6/128GB Midnight Black - najlepsza cena'
   },
   {
     label: 'Premiera iPad Pro M4',
     imgPath: 'https://cdn.x-kom.pl/i/img/banners/1442x316,,02c51335b248482f86a1772023dc2e68.jpg?filters=trim',
-    description: '256GB Wi-Fi Gwiezdna Szarość'
   },
   {
     label: 'Dell cashback',
     imgPath: 'https://cdn.x-kom.pl/i/img/banners/1442x316,,1475a9d9371b4411831193667915dad4.jpg?filters=trim',
-    description: '27CG552EUX'
   }
 ];
 

@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import PeopleIcon from '@mui/icons-material/People';
 import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
 import InventoryIcon from '@mui/icons-material/Inventory';
-
+import { Link } from 'react-router-dom';
 const categories = [
   {
     id: 'Zarządzaj',
@@ -47,8 +47,9 @@ export default function Navigator(props) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
-          + Kom
+        <ListItem component={Link}
+    to="/" sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
+          E-Amator
         </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>

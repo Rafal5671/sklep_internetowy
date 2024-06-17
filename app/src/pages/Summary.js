@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import OrderSummary from '../components/OrderSummary';
+import OrderSummary from '../components/orderCreation/OrderSummary';
 import axios from 'axios';
 import { Container, CircularProgress } from '@mui/material';
 

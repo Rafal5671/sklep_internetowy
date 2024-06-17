@@ -24,21 +24,21 @@ const ProductFilter = ({ onFilterChange, categoryId }) => {
   const debouncedOnFilterChange = useCallback(debounce(onFilterChange, 300), [onFilterChange]);
 
   useEffect(() => {
-    console.log('CategoryId changed:', categoryId); // Check if categoryId is changing correctly
+    console.log('CategoryId changed:', categoryId);
     const fetchProducers = async () => {
       try {
-        const response = await fetch(`http://localhost:8081/api/manufacturers?categoryId=${categoryId}`, { // Ensure this URL matches your Spring Boot server address and endpoint
+        const response = await fetch(`http://localhost:8081/api/manufacturers?categoryId=${categoryId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // This ensures cookies and other credentials are sent
+          credentials: 'include',
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('Fetched producers for category', categoryId, data); // Print producers to the console
+        console.log('Fetched producers for category', categoryId, data);
         const producersData = data.reduce((acc, producer) => {
           acc[producer] = false;
           return acc;
@@ -91,7 +91,7 @@ const ProductFilter = ({ onFilterChange, categoryId }) => {
   };
 
   return (
-    <Box sx={{ padding: 2, width: 300, backgroundColor: 'white', borderRadius: 7 }}>
+    <Box sx={{ padding: 2, width: 300, backgroundColor: '#f5f5f5', borderRadius: 7 }}>
       <Typography variant="h6">Filtry</Typography>
       {categoryId && producers.length > 0 && (
         <Box mt={2}>

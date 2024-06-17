@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, CssBaseline, Typography, Box, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import OrderSection from "../components/OrderSection";
+import Sidebar from "../components/profile/Sidebar";
+import OrderSection from "../components/profile/OrderSection";
 
 const Profile = () => {
   const [activeSection, setActiveSection] = useState("orders");
@@ -13,7 +13,7 @@ const Profile = () => {
     const userJson = sessionStorage.getItem("user");
     if (userJson) {
       const parsedUser = JSON.parse(userJson);
-      console.log("User object:", parsedUser); // Print the user object
+      console.log("User object:", parsedUser);
       setUser(parsedUser);
     } else {
       navigate("/login");
@@ -36,7 +36,7 @@ const Profile = () => {
   };
 
   if (!user) {
-    return null; // or a loading indicator
+    return null;
   }
 
   return (

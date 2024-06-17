@@ -6,20 +6,20 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import Navigator from '../components/AdminNavigator';
-import Header from '../components/AdminHeader';
-import Users from '../components/Users';
-import AddUser from '../components/AddUser';
-import Products from '../components/Products';
-import AddProduct from '../components/AddProduct';
-import Orders from '../components/Orders';
+import Navigator from '../components/admin/AdminNavigator';
+import Header from '../components/admin/AdminHeader';
+import Users from '../components/admin/Users';
+import AddUser from '../components/admin/AddUser';
+import Products from '../components/admin/Products';
+import AddProduct from '../components/admin/AddProduct';
+import Orders from '../components/admin/Orders';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="/">
-        + Kom
+        E-Amator
       </Link>{' '}
       {new Date().getFullYear()}.
     </Typography>
@@ -226,7 +226,6 @@ export default function AdminPage() {
     }
   };
 
-  // Check if user is an admin before rendering the page
   const user = JSON.parse(sessionStorage.getItem('user'));
   if (!user || user.userType !== 'ADMIN') {
     return null;
@@ -248,7 +247,7 @@ export default function AdminPage() {
               onClose={handleDrawerToggle}
               onSelectView={(view) => {
                 setSelectedView(view);
-                setSelectedSubView(`view${view.charAt(0).toUpperCase() + view.slice(1)}`); // Reset subview to default
+                setSelectedSubView(`view${view.charAt(0).toUpperCase() + view.slice(1)}`); 
               }}
             />
           )}
@@ -258,7 +257,7 @@ export default function AdminPage() {
             sx={{ display: { sm: 'block', xs: 'none' } }}
             onSelectView={(view) => {
               setSelectedView(view);
-              setSelectedSubView(`view${view.charAt(0).toUpperCase() + view.slice(1)}`); // Reset subview to default
+              setSelectedSubView(`view${view.charAt(0).toUpperCase() + view.slice(1)}`); 
             }}
           />
         </Box>

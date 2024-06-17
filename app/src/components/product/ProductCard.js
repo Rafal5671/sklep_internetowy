@@ -9,13 +9,13 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AddToCartModal from "./AddToCartModal"; // Import the new component
-import { useCart } from "./CartContext"; // Import useCart hook
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddToCartModal from "../cart/AddToCartModal";
+import { useCart } from "../cart/CartContext";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const { addToCart } = useCart(); // Use the addToCart function from the context
+  const { addToCart } = useCart();
 
   const handleImageClick = () => {
     navigate(`/product/${product.id}`);
@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
   const handleClose = () => setOpen(false);
 
   const addToCartHandler = () => {
-    addToCart(product); // Use the context function to add to cart
+    addToCart(product);
     handleOpen();
   };
 
@@ -40,6 +40,7 @@ const ProductCard = ({ product }) => {
           position: "relative",
           overflow: "hidden",
           transition: "elevation 0.3s",
+          backgroundColor:"ffffff"
         }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -134,7 +135,7 @@ const ProductCard = ({ product }) => {
               size="small"
               onClick={addToCartHandler}
             >
-              <ShoppingCartIcon />
+              <AddShoppingCartIcon />
             </Button>
           </Box>
         )}

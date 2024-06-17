@@ -9,13 +9,10 @@ const useSession = () => {
       setIsLoggedIn(!!user);
     };
 
-    // Add event listener
     window.addEventListener('loginStatusChanged', handleLoginStatusChange);
 
-    // Initial check
     handleLoginStatusChange();
 
-    // Cleanup listener on unmount
     return () => {
       window.removeEventListener('loginStatusChanged', handleLoginStatusChange);
     };

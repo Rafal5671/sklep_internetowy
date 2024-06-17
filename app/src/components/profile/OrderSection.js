@@ -51,6 +51,14 @@ const OrderSection = () => {
         return sortedOrders;
     };
 
+    const stateTextMap = {
+        PENDING: 'Oczekujące',
+        CONFIRMED: 'Potwierdzone',
+        SHIPPED: 'Wysłane',
+        DELIVERED: 'Zakończone',
+        CANCELLED: 'Anulowane',
+    };
+
     const sortedOrders = sortOrders(orders);
     const userOrders = sortedOrders.filter(order => order.user && order.user.id === user?.id);
 
@@ -74,7 +82,7 @@ const OrderSection = () => {
 
             {userOrders.map((order) => (
                 <Paper key={order.id} elevation={3} style={{ padding: '16px', marginTop: '16px', backgroundColor: '#fff' }}>
-                    <Typography variant="body1"><strong>{order.state === 'DELIVERED' ? 'Zakończone' : 'W toku'}</strong></Typography>
+                    <Typography variant="body1"><strong>{stateTextMap[order.state]}</strong></Typography>
                     <Typography variant="body2" style={{ color: '#888888' }}>{new Date(order.orderDate).toLocaleDateString()}</Typography>
                     <Typography variant="body2" style={{ color: '#888888' }}>nr {order.id}</Typography>
                     <Typography variant="h6" style={{ marginTop: '8px' }}>{order.totalPrice.toFixed(2)} zł</Typography>

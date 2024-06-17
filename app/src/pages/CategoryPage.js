@@ -39,6 +39,10 @@ function CategoryPage() {
         fetchCategoryData();
     }, [categoryId]);
 
+    useEffect(() => {
+        setPage(1); 
+    }, [categoryId]);
+
     const handleSortOptionChange = (event) => {
         setSortOption(event.target.value);
     };

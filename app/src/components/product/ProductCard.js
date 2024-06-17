@@ -78,40 +78,53 @@ const ProductCard = ({ product }) => {
           >
             {product.productName}
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              mt: 1,
-            }}
-          >
-            {product.cutPrice && (
+          {product.quantity > 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                mt: 1,
+              }}
+            >
+              {product.cutPrice && (
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{
+                    textDecoration: "line-through",
+                    color: "gray",
+                    marginRight: "10px",
+                  }}
+                >
+                  {product.cutPrice} zł
+                </Typography>
+              )}
               <Typography
-                variant="body2"
+                variant="h6"
                 component="div"
                 sx={{
-                  textDecoration: "line-through",
-                  color: "gray",
-                  marginRight: "10px",
+                  fontWeight: "bold",
                 }}
               >
-                {product.cutPrice} zł
+                {product.price} zł
               </Typography>
-            )}
+            </Box>
+          ) : (
             <Typography
               variant="h6"
               component="div"
               sx={{
                 fontWeight: "bold",
+                color: "red",
               }}
             >
-              {product.price} zł
+              Produkt niedostępny
             </Typography>
-          </Box>
+          )}
         </CardContent>
-        {hover && (
+        {hover && product.quantity > 0 && (
           <Box
             sx={{
               position: "absolute",

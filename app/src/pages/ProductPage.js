@@ -66,6 +66,9 @@ const ProductPage = () => {
   const descriptionLines = formattedDescription.split("\n");
   const descriptionLines4 = formattedDescription.split("\n").slice(0, 4);
 
+  const isAvailable = product.quantity > 0;
+  const isLowStock = product.quantity > 0 && product.quantity < 8;
+
   return (
     <>
       <Box
@@ -155,6 +158,7 @@ const ProductPage = () => {
                           value={quantity}
                           onChange={handleChange}
                           sx={{ borderRadius: 2 }}
+                          disabled={!isAvailable}
                         >
                           <MenuItem value={1}>1</MenuItem>
                           <MenuItem value={2}>2</MenuItem>
@@ -163,26 +167,51 @@ const ProductPage = () => {
                         </Select>
                       </FormControl>
                       <IconButton
-                        variant="contained"
-                        size="large"
-                        sx={{
-                          flexGrow: 1,
-                          borderRadius: 2,
-                          boxShadow: 3,
-                          backgroundColor: "green",
-                          "&:hover": {
-                            backgroundColor: "#388e3c",
-                          },
-                        }}
-                        onClick={handleAddToCart}
-                      >
-                        <AddShoppingCartIcon sx={{ color: "white" }} />
-                      </IconButton>
+  variant="contained"
+  size="large"
+  sx={{
+    flexGrow: 1,
+    borderRadius: 2,
+    boxShadow: 3,
+    backgroundColor: isAvailable ? "green" : "grey",
+    "&:hover": {
+      backgroundColor: isAvailable ? "#388e3c" : "grey",
+    },
+    color: "white",
+    opacity: isAvailable ? 1 : 0.6,
+    "&.Mui-disabled": {
+      backgroundColor: "grey",
+      color: "white",
+      opacity: 0.6,
+    },
+  }}
+  onClick={handleAddToCart}
+  disabled={!isAvailable}
+>
+  <AddShoppingCartIcon sx={{ color: "white" }} />
+</IconButton>
+
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <CheckCircleOutlineIcon sx={{ color: "green", mr: 1 }} />
-                      <Typography variant="body2" sx={{ color: "green" }}>
-                        Dostępny
+                      <CheckCircleOutlineIcon
+                        sx={{
+                          color: isAvailable ? (isLowStock ? "orange" : "green") : "red",
+                          mr: 1,
+                        }}
+                      />
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: isAvailable
+                            ? (isLowStock ? "orange" : "green")
+                            : "red",
+                        }}
+                      >
+                        {isAvailable
+                          ? isLowStock
+                            ? "Ostatnie sztuki"
+                            : "Dostępny"
+                          : "Niedostępny"}
                       </Typography>
                     </Box>
                   </Paper>

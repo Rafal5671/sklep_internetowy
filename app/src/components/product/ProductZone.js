@@ -9,9 +9,10 @@ function ProductZone() {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get("http://localhost:8081/api/products");
-                const shuffled = response.data.sort(() => 0.5 - Math.random());
+                const availableProducts = response.data.filter(product => product.quantity > 0);
+                const shuffled = availableProducts.sort(() => 0.5 - Math.random());
                 setProducts(shuffled.slice(0, 12));
-                console.log("Products",shuffled);
+                console.log("Products", shuffled);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -28,4 +29,3 @@ function ProductZone() {
 }
 
 export default ProductZone;
-

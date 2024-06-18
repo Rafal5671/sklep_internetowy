@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.UserDTO;
+import com.example.shop.dto.UserDTO;
 import com.example.shop.model.User;
 
 public class UserMapper {

@@ -1,7 +1,7 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.OrderDto;
-import com.example.shop.DTO.OrderProductDto;
+import com.example.shop.dto.OrderDto;
+import com.example.shop.dto.OrderProductDto;
 import com.example.shop.model.OrderProduct;
 import com.example.shop.model.Orders;
 

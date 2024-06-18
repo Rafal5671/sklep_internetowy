@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.ProductManufacturerDto;
+import com.example.shop.dto.ProductManufacturerDto;
 import com.example.shop.model.Product;
 import com.example.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,9 @@ public class ProductController {
                         product.getPrice(),
                         product.getManufacturer().getName(),
                         product.getImage(),
-                        product.getCutPrice(),  // Assuming getCutPrice() returns a Float
-                        product.getCategory().getCategoryName()  // Assuming getCategory() returns a Category object with getName() method
+                        product.getCutPrice(),
+                        product.getCategory().getCategoryName(),
+                        product.getQuantity()
                 ))
                 .collect(Collectors.toList());
     }

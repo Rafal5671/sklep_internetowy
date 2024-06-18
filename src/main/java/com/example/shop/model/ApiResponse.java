@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class ApiResponse {
     private String message;
     private boolean status;
-    private User user; // Add this field
+    private User user;
 }

@@ -1,20 +1,16 @@
 package com.example.shop.service;
 
-import com.example.shop.DTO.UserDTO;
-import com.example.shop.model.Orders;
+import com.example.shop.dto.UserDTO;
 import com.example.shop.model.User;
 import com.example.shop.model.UserType;
 import com.example.shop.repo.OrderRepository;
 import com.example.shop.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,16 +29,6 @@ public class UserService {
         this.orderRepository = orderRepository;
     }
 
-    public boolean checkLogin(User user) {
-        User foundUser = userRepository.findByEmail(user.getEmail());
-        return foundUser != null && passwordEncoder.matches(user.getPassword(), foundUser.getPassword());
-    }
-    public Orders createOrder(User user) {
-        Orders orders = new Orders();
-        orders.setUser(user);
-        orders.setTotalPrice(0.0f);
-        return orderRepository.save(orders);
-    }
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserType(UserType.USER);
@@ -55,14 +41,6 @@ public class UserService {
             return user;
         }
         return null;
-    }
-
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 
     public List<UserDTO> getAllUsers() {

@@ -1,9 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.OrderDto;
-import com.example.shop.DTO.OrderProductDto;
-import com.example.shop.DTO.ProductDTO;
-import com.example.shop.DTO.UserDTO;
+import com.example.shop.dto.OrderDto;
 import com.example.shop.model.*;
 import com.example.shop.repo.*;
 import lombok.Getter;
@@ -57,7 +54,7 @@ public class OrderController {
                 .orderProducts(new ArrayList<>())
                 .orderDate(LocalDateTime.now())
                 .state(OrderState.PENDING)
-                .type(PaymentStatus.UNPAID)
+                .type(PaymentStatus.PAID)
                 .address(address)  // Associate the saved address here
                 .build();
 

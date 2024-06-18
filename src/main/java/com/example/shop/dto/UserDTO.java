@@ -1,4 +1,4 @@
-package com.example.shop.DTO;
+package com.example.shop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +14,5 @@ public class UserDTO {
     private String password;
     private String lastName;
     private int phone;
-    // inne pola...
 }
 

@@ -1,8 +1,8 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.UserDTO;
-import com.example.shop.DTO.UserLoginDto;
-import com.example.shop.DTO.UserSummaryDto;
+import com.example.shop.dto.UserDTO;
+import com.example.shop.dto.UserLoginDto;
+import com.example.shop.dto.UserSummaryDto;
 import com.example.shop.model.ApiResponse;
 import com.example.shop.model.LoginResponse;
 import com.example.shop.model.User;
@@ -45,7 +45,6 @@ public class UserController {
             response.setStatus(true);
             UserLoginDto userDTO = new UserLoginDto(user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getUserType());
             response.setUser(userDTO);
-            System.out.println("Authenticated User: " + user.getUserType());
             return ResponseEntity.ok(response);
         } else {
             response.setMessage("Invalid email or password");
@@ -93,6 +92,7 @@ public class UserController {
         UserSummaryDto userSummaryDto = new UserSummaryDto();
         userSummaryDto.setId(user.getId());
         userSummaryDto.setName(user.getName());
+        userSummaryDto.setLastName(user.getLastName());
         userSummaryDto.setEmail(user.getEmail());
         userSummaryDto.setPhone(user.getPhone());
         return userSummaryDto;

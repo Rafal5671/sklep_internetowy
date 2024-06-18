@@ -1,4 +1,4 @@
-package com.example.shop.DTO;
+package com.example.shop.dto;
 
 import com.example.shop.model.OrderState;
 import com.example.shop.model.PaymentStatus;

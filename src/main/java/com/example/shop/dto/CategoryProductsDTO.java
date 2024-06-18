@@ -1,4 +1,4 @@
-package com.example.shop.DTO;
+package com.example.shop.dto;
 
 import com.example.shop.model.Product;
 import java.util.List;
@@ -7,7 +7,6 @@ public class CategoryProductsDTO {
     private String categoryName;
     private List<Product> products;
 
-    // Getters and setters
     public String getCategoryName() {
         return categoryName;
     }

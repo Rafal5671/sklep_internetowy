@@ -1,6 +1,5 @@
 package com.example.shop.service;
 
-import com.example.shop.model.Manufacturer;
 import com.example.shop.repo.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.shop.DTO;
+package com.example.shop.dto;
 
 public class ProductDTO {
     private Long id;
@@ -6,8 +6,7 @@ public class ProductDTO {
     private String image;
     private double price;
     private double discountedPrice;
-
-    // Constructors, getters, and setters
+    private int quantity;
 
     public ProductDTO() {
     }
@@ -58,5 +57,13 @@ public class ProductDTO {
 
     public void setDiscountedPrice(double discountedPrice) {
         this.discountedPrice = discountedPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

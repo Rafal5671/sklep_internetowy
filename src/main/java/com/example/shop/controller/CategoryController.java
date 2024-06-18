@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.CategoryProductsDTO;
+import com.example.shop.dto.CategoryProductsDTO;
 import com.example.shop.model.Category;
 import com.example.shop.model.Product;
 import com.example.shop.service.CategoryService;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController

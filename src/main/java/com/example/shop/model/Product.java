@@ -36,6 +36,7 @@ public class Product {
     private float price;
 
     private String image;
+    private int quantity;
 
     @Column(name = "cut_price")
     private Float cutPrice;

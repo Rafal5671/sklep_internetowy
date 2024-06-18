@@ -1,6 +1,6 @@
 package com.example.shop.model;
 
-import com.example.shop.DTO.UserLoginDto;
+import com.example.shop.dto.UserLoginDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private String message;
     private boolean status;
-    private UserLoginDto user; // Add this field
+    private UserLoginDto user;
 }

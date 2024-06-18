@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.DTO.AddressDTO;
+import com.example.shop.dto.AddressDTO;
 import com.example.shop.model.Address;
 
 public class AddressMapper {

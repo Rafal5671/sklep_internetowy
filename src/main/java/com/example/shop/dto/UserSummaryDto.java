@@ -1,15 +1,14 @@
-package com.example.shop.DTO;
+package com.example.shop.dto;
 
 public class UserSummaryDto {
     private Long id;
     private String name;
+    private String lastName;
     private String email;
 
 
     private int phone;
-    // add other fields as necessary
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -26,6 +25,13 @@ public class UserSummaryDto {
     }
     public String getName() {
         return name;
+    }
+
+    public void setLastName(String name) {
+        this.lastName = name;
+    }
+    public String getLastName() {
+        return lastName;
     }
 
     public void setName(String name) {

@@ -1,4 +1,4 @@
-package com.example.shop.DTO;
+package com.example.shop.dto;
 
 import com.example.shop.model.UserType;
 
@@ -19,7 +19,6 @@ public class UserLoginDto {
         this.userType = userType;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

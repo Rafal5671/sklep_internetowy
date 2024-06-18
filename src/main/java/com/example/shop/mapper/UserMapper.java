@@ -1,4 +1,4 @@
-package com.example.shop.controller;
+package com.example.shop.mapper;
 
 import com.example.shop.dto.UserDTO;
 import com.example.shop.model.User;

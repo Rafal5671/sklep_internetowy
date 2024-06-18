@@ -1,6 +1,7 @@
 package com.example.shop.controller;
 
 import com.example.shop.dto.OrderDto;
+import com.example.shop.mapper.OrderMapper;
 import com.example.shop.model.*;
 import com.example.shop.repo.*;
 import lombok.Getter;
@@ -32,13 +33,11 @@ public class OrderController {
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<Orders> createOrder(@RequestBody OrderRequest orderRequest) {
-        // Find the user based on the email provided in the request
         User user = userRepository.findByEmail(orderRequest.getEmail());
         if (user == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        // Create and save address first
         Address address = Address.builder()
                 .city(orderRequest.getCity())
                 .street(orderRequest.getStreet())
@@ -47,7 +46,6 @@ public class OrderController {
                 .build();
         address = addressRepository.save(address);
 
-        // Create the order and associate the saved address
         Orders order = Orders.builder()
                 .user(user)
                 .totalPrice(orderRequest.getTotalPrice())
@@ -55,10 +53,9 @@ public class OrderController {
                 .orderDate(LocalDateTime.now())
                 .state(OrderState.PENDING)
                 .type(PaymentStatus.PAID)
-                .address(address)  // Associate the saved address here
+                .address(address)
                 .build();
 
-        // Add order products
         for (OrderProductRequest orderProductRequest : orderRequest.getProducts()) {
             Product product = productRepository.findById(orderProductRequest.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + orderProductRequest.getProductId()));
@@ -70,7 +67,6 @@ public class OrderController {
             order.getOrderProducts().add(orderProduct);
         }
 
-        // Save the order
         Orders savedOrder = orderRepository.save(order);
 
         return ResponseEntity.ok(savedOrder);
@@ -78,16 +74,13 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity<List<OrderDto>> getAllOrders(@RequestParam String email) {
-        // Find the user based on the email provided in the request
         User user = userRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        // Find all orders for the user
         List<Orders> orders = orderRepository.findByUser(user);
 
-        // Map Orders to OrderDTO
         List<OrderDto> orderDTOs = new ArrayList<>();
         for (Orders order : orders) {
             orderDTOs.add(OrderMapper.toDTO(order));
@@ -97,10 +90,8 @@ public class OrderController {
     }
     @GetMapping("/all-orders")
     public ResponseEntity<List<OrderDto>> getAllOrders() {
-        // Find all orders
         List<Orders> orders = orderRepository.findAll();
 
-        // Map Orders to OrderDTO
         List<OrderDto> orderDTOs = new ArrayList<>();
         for (Orders order : orders) {
             orderDTOs.add(OrderMapper.toDTO(order));
@@ -123,7 +114,7 @@ class OrderRequest {
     private List<OrderProductRequest> products;
     private float totalPrice;
     private String email;
-    private String city;  // New address fields
+    private String city;
     private String street;
     private String postalCode;
 }

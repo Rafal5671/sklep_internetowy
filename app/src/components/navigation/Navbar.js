@@ -30,6 +30,7 @@ import TabletAndroidIcon from '@mui/icons-material/TabletAndroid';
 import WatchIcon from '@mui/icons-material/Watch';
 import TvIcon from '@mui/icons-material/Tv';
 import MonitorIcon from '@mui/icons-material/Monitor';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -238,7 +239,7 @@ const AppNavbar = () => {
                   key={category.id}
                   onClick={() => handleCategoryClick(category.id)}
                 >
-                  <ListItemIcon sx={{ color: 'white' }}>
+                  <ListItemIcon sx={{ color: 'black' }}>
                     {category.categoryName === "Laptopy i Komputery" && <ComputerIcon />}
                     {category.categoryName === "Smartfony" && <SmartphoneIcon />}
                     {category.categoryName === "Tablety" && <TabletAndroidIcon />}
@@ -250,22 +251,21 @@ const AppNavbar = () => {
                 </MenuItem>
               ))}
             </Menu>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            <Box
+              component={RouterLink}
+              to="/"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
             >
-              <RouterLink
-                to="/"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <img
-                  src="/E-Amator.svg"
-                  alt="Logo"
-                  style={{ maxHeight: "60px" }}
-                />
-              </RouterLink>
-            </Typography>
+              <LocalMallIcon sx={{ color: 'white', fontSize: 40, mr: 0.5 }} />
+              <Typography variant="h5" sx={{ ml: 0.5 }}>
+                E-Amator
+              </Typography>
+            </Box>
             <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
               <Search>
                 <SearchIconWrapper>

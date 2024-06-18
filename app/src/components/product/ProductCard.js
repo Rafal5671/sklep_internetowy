@@ -40,7 +40,7 @@ const ProductCard = ({ product }) => {
           position: "relative",
           overflow: "hidden",
           transition: "elevation 0.3s",
-          backgroundColor:"ffffff"
+          backgroundColor: "#ffffff",
         }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -52,6 +52,7 @@ const ProductCard = ({ product }) => {
               height: 150,
               width: 1,
               objectFit: "contain",
+              marginTop: 2, // This adds a margin above the image
             }}
             image={product.image}
             alt={product.productName}

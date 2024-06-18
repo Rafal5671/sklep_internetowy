@@ -86,13 +86,20 @@ const ProductPage = () => {
           }}
         >
           <Grid container spacing={4} alignItems="flex-start">
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={4}>
               <Card elevation={0}>
                 <CardMedia
                   component="img"
                   image={product.image}
                   alt={product.productName}
-                  sx={{ width: "100%", height: "auto", borderRadius: 2 }}
+                  sx={{
+                    width: "100%",
+                    maxWidth: "300px",
+                    height: "auto",
+                    maxHeight: "300px",
+                    borderRadius: 2,
+                    objectFit: "contain",
+                  }}
                 />
               </Card>
             </Grid>
@@ -105,9 +112,9 @@ const ProductPage = () => {
               >
                 {product.productName}
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={8}>
-                  <Paper elevation={3} sx={{ p: 3 }}>
+              <Grid container spacing={2} sx={{ display: "flex", height: '100%' }}>
+                <Grid item xs={7} sx={{ display: "flex" }}>
+                  <Paper elevation={3} sx={{ p: 3, flex: 1, display: "flex", flexDirection: "column" }}>
                     <Typography
                       variant="body1"
                       gutterBottom
@@ -122,23 +129,34 @@ const ProductPage = () => {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5} sx={{ display: "flex" }}>
                   <Paper
                     elevation={3}
                     sx={{
                       p: 3,
-                      height: "100%",
+                      flex: 1,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
                     }}
                   >
                     {product.cutPrice && (
-                      <Typography
-                        sx={{ color: "green", fontWeight: "bold", mb: 1 }}
-                      >
-                        Oszczędź {product.price - product.cutPrice} zł
-                      </Typography>
+                      <>
+                        <Typography
+                          sx={{ color: "green", fontWeight: "bold", mb: 1 }}
+                        >
+                          Oszczędź {product.price - product.cutPrice} zł
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            textDecoration: "line-through",
+                            color: "grey",
+                          }}
+                        >
+                          {product.price} zł
+                        </Typography>
+                      </>
                     )}
                     <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
                       {product.cutPrice ? product.cutPrice : product.price} zł
@@ -167,35 +185,40 @@ const ProductPage = () => {
                         </Select>
                       </FormControl>
                       <IconButton
-  variant="contained"
-  size="large"
-  sx={{
-    flexGrow: 1,
-    borderRadius: 2,
-    boxShadow: 3,
-    backgroundColor: isAvailable ? "green" : "grey",
-    "&:hover": {
-      backgroundColor: isAvailable ? "#388e3c" : "grey",
-    },
-    color: "white",
-    opacity: isAvailable ? 1 : 0.6,
-    "&.Mui-disabled": {
-      backgroundColor: "grey",
-      color: "white",
-      opacity: 0.6,
-    },
-  }}
-  onClick={handleAddToCart}
-  disabled={!isAvailable}
->
-  <AddShoppingCartIcon sx={{ color: "white" }} />
-</IconButton>
-
+                        variant="contained"
+                        size="large"
+                        sx={{
+                          flexGrow: 1,
+                          borderRadius: 2,
+                          boxShadow: 3,
+                          backgroundColor: isAvailable ? "green" : "grey",
+                          "&:hover": {
+                            backgroundColor: isAvailable
+                              ? "#388e3c"
+                              : "grey",
+                          },
+                          color: "white",
+                          opacity: isAvailable ? 1 : 0.6,
+                          "&.Mui-disabled": {
+                            backgroundColor: "grey",
+                            color: "white",
+                            opacity: 0.6,
+                          },
+                        }}
+                        onClick={handleAddToCart}
+                        disabled={!isAvailable}
+                      >
+                        <AddShoppingCartIcon sx={{ color: "white" }} />
+                      </IconButton>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <CheckCircleOutlineIcon
                         sx={{
-                          color: isAvailable ? (isLowStock ? "orange" : "green") : "red",
+                          color: isAvailable
+                            ? isLowStock
+                              ? "orange"
+                              : "green"
+                            : "red",
                           mr: 1,
                         }}
                       />
@@ -203,7 +226,9 @@ const ProductPage = () => {
                         variant="body2"
                         sx={{
                           color: isAvailable
-                            ? (isLowStock ? "orange" : "green")
+                            ? isLowStock
+                              ? "orange"
+                              : "green"
                             : "red",
                         }}
                       >

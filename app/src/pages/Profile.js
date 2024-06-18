@@ -7,6 +7,7 @@ import OrderSection from "../components/profile/OrderSection";
 const Profile = () => {
   const [activeSection, setActiveSection] = useState("orders");
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ const Profile = () => {
   const handleLogout = () => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("basket");
+    setIsLoggedIn(false);
+    window.dispatchEvent(new Event('loginStatusChanged'));
     navigate("/");
   };
 
